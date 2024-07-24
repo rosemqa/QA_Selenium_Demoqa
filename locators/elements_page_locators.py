@@ -15,3 +15,11 @@ class TextBoxPageLocators:
     OUTPUT_CURRENT_ADDRESS = (By.CSS_SELECTOR, 'p#currentAddress')
     OUTPUT_PERMANENT_ADDRESS = (By.CSS_SELECTOR, 'p#permanentAddress')
 
+
+class CheckBoxPageLocators:
+    EXPAND_ALL_BTN = (By.CSS_SELECTOR, '.rct-icon-expand-all')
+    CHECKBOX = (By.CSS_SELECTOR, '.rct-checkbox')
+    TICKED_CHECKBOX = (By.CSS_SELECTOR, '.rct-icon-check')
+    # CHECKBOX_TITLE = (By.XPATH, "/../../*[@class='rct-title")
+    CHECKBOX_TITLE = (By.XPATH, ".//ancestor::span[@class='rct-text']")
+    OUTPUT_RESULT = (By.CSS_SELECTOR, '.text-success')

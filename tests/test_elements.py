@@ -1,7 +1,7 @@
 import time
 import allure
 from data.links import URL
-from pages.elements_page import ElementPage
+from pages.elements_page import TextBoxPage, CheckBoxPage
 
 
 @allure.suite('Elements')
@@ -10,7 +10,7 @@ class TestElements:
     class TestTextBox:
         @allure.description('Info in the output form matches the input fields')
         def test_text_box(self, driver):
-            page = ElementPage(driver, URL.TEXT_BOX)
+            page = TextBoxPage(driver, URL.TEXT_BOX)
             page.open_page()
 
             full_name, email, current_address, permanent_address = page.fill_all_fields()
@@ -21,3 +21,18 @@ class TestElements:
             assert output_email == email, 'Email does not match'
             assert output_current_address == current_address, 'Current_address does not match'
             assert output_permanent_address == permanent_address, 'Permanent_address does not match'
+
+    @allure.feature('CheckBox')
+    class TestCheckBox:
+        @allure.description('Titles of ticked checkboxes match the output results')
+        def test_check_boxes(self, driver):
+            page = CheckBoxPage(driver, URL.CHECK_BOX)
+            page.open_page()
+
+            page.click_expand_all_button()
+            page.click_random_checkboxes()
+            input_checkbox = page.get_ticked_checkboxes_titles()
+            output_result = page.get_output_result_text()
+
+            with (allure.step('Assert Input and Output results are the same')):
+                assert input_checkbox == output_result, 'Titles of ticked checkboxes does not match the output results'
