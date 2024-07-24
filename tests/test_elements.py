@@ -1,7 +1,9 @@
 import time
 import allure
+import pytest
+
 from data.links import URL
-from pages.elements_page import TextBoxPage, CheckBoxPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
 
 
 @allure.suite('Elements')
@@ -34,5 +36,18 @@ class TestElements:
             input_checkbox = page.get_ticked_checkboxes_titles()
             output_result = page.get_output_result_text()
 
-            with (allure.step('Assert Input and Output results are the same')):
+            with allure.step('Assert Input and Output results are the same'):
                 assert input_checkbox == output_result, 'Titles of ticked checkboxes does not match the output results'
+
+    @allure.feature('RadioButton')
+    class TestRadioButton:
+        @allure.description('Name of ticked radiobutton match the output result')
+        @pytest.mark.parametrize('button_name', ['Yes', 'Impressive', 'No'])
+        def test_radio_button(self, driver, button_name):
+            page = RadioButtonPage(driver, URL.RADIO_BUTTON)
+            page.open_page()
+
+            page.click_radio_button(button_name)
+            output = page.get_output_result_text()
+
+            assert output == button_name, f'Check output for {button_name}'

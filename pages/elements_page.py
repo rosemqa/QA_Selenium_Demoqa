@@ -3,7 +3,7 @@ import allure
 from faker import Faker
 from data.generator import generated_person
 from pages.base_page import BasePage
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
 
 
 class TextBoxPage(BasePage):
@@ -104,3 +104,20 @@ class CheckBoxPage(BasePage):
         for _ in range(10):
             random_checkbox = checkbox_list[random.randint(0, 16)]
             random_checkbox.click()
+
+
+class RadioButtonPage(BasePage):
+    locators = RadioButtonPageLocators
+
+    @allure.step('Get output result')
+    def get_output_result_text(self):
+        return self.find_element(self.locators.OUTPUT_RESULT).text
+
+    def click_radio_button(self, choice):
+        choices = {
+            'Yes': self.locators.YES_RADIO_BTN,
+            'Impressive': self.locators.IMPRESSIVE_RADIO_BTN,
+            'No': self.locators.NO_RADIO_BTN
+        }
+        with allure.step(f'Click "{choice}" radio button'):
+            self.find_element(choices[choice]).click()
