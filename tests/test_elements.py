@@ -1,9 +1,8 @@
-import time
+import random
 import allure
 import pytest
-
 from data.links import URL
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 
 
 @allure.suite('Elements')
@@ -51,3 +50,58 @@ class TestElements:
             output = page.get_output_result_text()
 
             assert output == button_name, f'Check output for {button_name}'
+
+    @allure.feature('WebTable')
+    class TestWebTable:
+        @allure.description('Can add a new person to the table')
+        def test_add_person_to_the_table(self, driver):
+            page = WebTablePage(driver, URL.WEB_TABLE)
+            page.open_page()
+
+            new_person = page.add_new_person()
+            table_data = page.get_table_data_text()
+
+            assert new_person in table_data, 'A new person is not added to the table'
+
+        @allure.description('Can search for a person in the table by keyword')
+        def test_search_person_in_the_table(self, driver):
+            page = WebTablePage(driver, URL.WEB_TABLE)
+            page.open_page()
+
+            keyword = page.add_new_person()[random.randint(0, 5)]
+            page.enter_keyword_into_search_field(keyword)
+            table_row = page.get_table_row_text()
+
+            assert keyword in table_row, 'Person not found in table by keyword'
+
+        @allure.description('Can edit person data in the table')
+        def test_edit_person_data_in_the_table(self, driver):
+            page = WebTablePage(driver, URL.WEB_TABLE)
+            page.open_page()
+
+            new_data = page.edit_person_data()
+            table_row = page.get_table_row_text()
+
+            assert new_data == table_row, 'Person data has not been changed'
+
+        @allure.description('Can delete person from the table')
+        def test_delete_person_in_the_table(self, driver):
+            page = WebTablePage(driver, URL.WEB_TABLE)
+            page.open_page()
+
+            email = page.add_new_person()[3]
+            page.enter_keyword_into_search_field(email)
+            page.click_delete_button()
+            text = page.get_no_rows_found_text()
+
+            assert text == 'No rows found', 'Check "No rows found" text'
+
+        @allure.description('Can change the number of rows in the table')
+        def test_change_row_count_in_the_table(self, driver):
+            row_count = [5, 10, 20, 25, 50, 100]
+
+            page = WebTablePage(driver, URL.WEB_TABLE)
+            page.open_page()
+
+            assert page.change_row_count() == row_count, \
+                'The number of rows in the table does not match the selected number'

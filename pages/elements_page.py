@@ -1,9 +1,10 @@
 import random
 import allure
-from faker import Faker
+from selenium.webdriver.support.select import Select
 from data.generator import generated_person
 from pages.base_page import BasePage
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
+    WebTablePAgeLocators
 
 
 class TextBoxPage(BasePage):
@@ -121,3 +122,94 @@ class RadioButtonPage(BasePage):
         }
         with allure.step(f'Click "{choice}" radio button'):
             self.find_element(choices[choice]).click()
+
+
+class WebTablePage(BasePage):
+    locators = WebTablePAgeLocators
+
+    @allure.step('Get text from table data')
+    def get_table_data_text(self):
+        row_list = self.find_elements(self.locators.TABLE_ROW)
+        return [row.text.split() for row in row_list]
+
+    @allure.step('Get the text of the first row of the table')
+    def get_table_row_text(self):
+        return self.find_element(self.locators.TABLE_ROW).text.splitlines()
+
+    @allure.step('Get "no rows found" text')
+    def get_no_rows_found_text(self):
+        return self.find_element(self.locators.NO_ROWS_FOUND).text
+
+    @allure.step('Get number of rows in the table')
+    def get_table_length_value(self):
+        return len(self.find_elements(self.locators.TABLE_ROW))
+
+    @allure.step('Add a new person to the table')
+    def add_new_person(self):
+        person_info = generated_person()
+        first_name = person_info.first_name
+        last_name = person_info.last_name
+        email = person_info.email
+        age = person_info.age
+        salary = person_info.salary
+        department = person_info.department
+
+        with allure.step('Click Add button'):
+            self.find_element(self.locators.ADD_BUTTON).click()
+        with allure.step('Fill in all the fields'):
+            self.find_element(self.locators.FIRST_NAME_FIELD).send_keys(first_name)
+            self.find_element(self.locators.LAST_NAME_FIELD).send_keys(last_name)
+            self.find_element(self.locators.EMAIL_FIELD).send_keys(email)
+            self.find_element(self.locators.AGE_FIELD).send_keys(age)
+            self.find_element(self.locators.SALARY_FIELD).send_keys(salary)
+            self.find_element(self.locators.DEPARTMENT).send_keys(department)
+        with allure.step('Click Submit button'):
+            self.find_element(self.locators.SUBMIT_BTN).click()
+
+        return [first_name, last_name, str(age), email, str(salary), department]
+
+    @allure.step('Enter keyword into search field')
+    def enter_keyword_into_search_field(self, keyword):
+        self.find_element(self.locators.SEARCH_FIELD).send_keys(keyword)
+
+    @allure.step('Edit person data in the table')
+    def edit_person_data(self):
+        person_info = generated_person()
+        first_name = person_info.first_name
+        last_name = person_info.last_name
+        email = person_info.email
+        age = person_info.age
+        salary = person_info.salary
+        department = person_info.department
+
+        with allure.step('Click Edit button'):
+            self.find_element(self.locators.EDIT_BTN).click()
+        with allure.step('Clear old data and enter new data'):
+            self.find_element(self.locators.FIRST_NAME_FIELD).clear()
+            self.find_element(self.locators.FIRST_NAME_FIELD).send_keys(first_name)
+            self.find_element(self.locators.LAST_NAME_FIELD).clear()
+            self.find_element(self.locators.LAST_NAME_FIELD).send_keys(last_name)
+            self.find_element(self.locators.EMAIL_FIELD).clear()
+            self.find_element(self.locators.EMAIL_FIELD).send_keys(email)
+            self.find_element(self.locators.AGE_FIELD).clear()
+            self.find_element(self.locators.AGE_FIELD).send_keys(age)
+            self.find_element(self.locators.SALARY_FIELD).clear()
+            self.find_element(self.locators.SALARY_FIELD).send_keys(salary)
+            self.find_element(self.locators.DEPARTMENT).clear()
+            self.find_element(self.locators.DEPARTMENT).send_keys(department)
+        with allure.step('Click Submit button'):
+            self.find_element(self.locators.SUBMIT_BTN).click()
+        return [first_name, last_name, str(age), email, str(salary), department]
+
+    @allure.step('Click Delete button')
+    def click_delete_button(self):
+        self.find_element(self.locators.DELETE_BTN).click()
+
+    @allure.step('Change the number of table rows')
+    def change_row_count(self):
+        row_count = ['5', '10', '20', '25', '50', '100']
+        table_length = []
+        for i in row_count:
+            Select(self.find_element(self.locators.ROW_COUNT_DROPDOWN)).select_by_value(i)
+            table_length.append(self.get_table_length_value())
+        return table_length
