@@ -3,4 +3,5 @@ class URL:
     CHECK_BOX = 'https://demoqa.com/checkbox'
     RADIO_BUTTON = 'https://demoqa.com/radio-button'
     WEB_TABLE = 'https://demoqa.com/webtables'
+    BUTTONS = 'https://demoqa.com/buttons'
 

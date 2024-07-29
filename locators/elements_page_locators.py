@@ -48,3 +48,15 @@ class WebTablePAgeLocators:
     TABLE_ROW = (By.CSS_SELECTOR, '[role="rowgroup"]')
     NO_ROWS_FOUND = (By.CSS_SELECTOR, '.rt-noData')
     ROW_COUNT_DROPDOWN = (By.CSS_SELECTOR, '[aria-label="rows per page"]')
+
+
+class ButtonsPageLocators:
+    # BUTTONS
+    DOUBLE_CLICK_ME_BTN = (By.CSS_SELECTOR, '#doubleClickBtn')
+    RIGHT_CLICK_BTN = (By.CSS_SELECTOR, '#rightClickBtn')
+    CLICK_ME_BTN = (By.XPATH, '//button[.="Click Me"]')
+    # OUTPUT MESSAGES
+    DOUBLE_CLICK_MSG = (By.CSS_SELECTOR, '#doubleClickMessage')
+    RIGHT_CLICK_MSG = (By.CSS_SELECTOR, '#rightClickMessage')
+    DYNAMIC_CLICK_MSG = (By.CSS_SELECTOR, '#dynamicClickMessage')
+

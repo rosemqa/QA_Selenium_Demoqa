@@ -2,7 +2,7 @@ import random
 import allure
 import pytest
 from data.links import URL
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
 
 
 @allure.suite('Elements')
@@ -105,3 +105,20 @@ class TestElements:
 
             assert page.change_row_count() == row_count, \
                 'The number of rows in the table does not match the selected number'
+
+    @allure.feature('Buttons')
+    class TestButtons:
+        @allure.description('Checking different types of clicks (double, right, left)')
+        def test_different_click_types_on_the_buttons(self, driver, check):
+            page = ButtonsPage(driver, URL.BUTTONS)
+            page.open_page()
+
+            double_click = page.click_on_different_buttons('double')
+            right_click = page.click_on_different_buttons('right')
+            left_click = page.click_on_different_buttons('click')
+
+            with check:
+                assert double_click == 'You have done a double click', 'Check message for double click'
+            with check:
+                assert right_click == 'You have done a right click', 'Check message for right click'
+            assert left_click == 'You have done a dynamic click', 'Check message for left click'

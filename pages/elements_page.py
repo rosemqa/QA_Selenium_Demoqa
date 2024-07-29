@@ -1,10 +1,12 @@
 import random
+import time
+
 import allure
 from selenium.webdriver.support.select import Select
 from data.generator import generated_person
 from pages.base_page import BasePage
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePAgeLocators
+    WebTablePAgeLocators, ButtonsPageLocators
 
 
 class TextBoxPage(BasePage):
@@ -213,3 +215,25 @@ class WebTablePage(BasePage):
             Select(self.find_element(self.locators.ROW_COUNT_DROPDOWN)).select_by_value(i)
             table_length.append(self.get_table_length_value())
         return table_length
+
+
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators
+
+    @allure.step('Get output message text on click')
+    def get_output_msg_on_click(self, locator):
+        return self.find_element(locator).text
+
+    def click_on_different_buttons(self, click_type):
+        if click_type == 'double':
+            with allure.step('Double click the Double Click Me button'):
+                self.double_click(self.locators.DOUBLE_CLICK_ME_BTN)
+                return self.get_output_msg_on_click(self.locators.DOUBLE_CLICK_MSG)
+        elif click_type == 'right':
+            with allure.step('Right click the Right Click Me button'):
+                self.right_click(self.locators.RIGHT_CLICK_BTN)
+                return self.get_output_msg_on_click(self.locators.RIGHT_CLICK_MSG)
+        elif click_type == 'click':
+            with allure.step('Click the Click Me button'):
+                self.find_element(self.locators.CLICK_ME_BTN).click()
+                return self.get_output_msg_on_click(self.locators.DYNAMIC_CLICK_MSG)
