@@ -1,8 +1,10 @@
 import random
+import time
+
 import allure
 import pytest
 from data.links import URL
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
 
 
 @allure.suite('Elements')
@@ -122,3 +124,27 @@ class TestElements:
             with check:
                 assert right_click == 'You have done a right click', 'Check message for right click'
             assert left_click == 'You have done a dynamic click', 'Check message for left click'
+
+    @allure.feature('Links')
+    class TestLinks:
+        @allure.description('Simple link opens a new tab and leads to relevant URL')
+        def test_links(self, driver):
+            page = LinksPage(driver, URL.LINKS)
+            page.open_page()
+
+            current_url, link_href = page.click_simple_link()
+
+            assert link_href == current_url, f'Check link {link_href}'
+            # assert current_url == 'https://demoqa.com/'
+
+        def test_broken_link(self, driver):
+            page = LinksPage(driver, URL.LINKS)
+            page.open_page()
+            response_code = page.check_broken_link('https://demoqa.com/bad-request')
+            assert response_code == 400, "Unexpected status code"
+
+
+
+
+
+

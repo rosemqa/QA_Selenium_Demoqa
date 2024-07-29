@@ -4,4 +4,5 @@ class URL:
     RADIO_BUTTON = 'https://demoqa.com/radio-button'
     WEB_TABLE = 'https://demoqa.com/webtables'
     BUTTONS = 'https://demoqa.com/buttons'
+    LINKS = 'https://demoqa.com/links'
 

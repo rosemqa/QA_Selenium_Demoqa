@@ -2,11 +2,12 @@ import random
 import time
 
 import allure
+import requests
 from selenium.webdriver.support.select import Select
 from data.generator import generated_person
 from pages.base_page import BasePage
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePAgeLocators, ButtonsPageLocators
+    WebTablePAgeLocators, ButtonsPageLocators, LinksPageLocators
 
 
 class TextBoxPage(BasePage):
@@ -237,3 +238,28 @@ class ButtonsPage(BasePage):
             with allure.step('Click the Click Me button'):
                 self.find_element(self.locators.CLICK_ME_BTN).click()
                 return self.get_output_msg_on_click(self.locators.DYNAMIC_CLICK_MSG)
+
+
+class LinksPage(BasePage):
+    locators = LinksPageLocators
+
+    @allure.step('Click simple link')
+    def click_simple_link(self):
+        simple_link = self.find_element(self.locators.SIMPLE_LINK)
+        link_href = simple_link.get_attribute('href')
+        response = requests.get(link_href)
+        assert response.status_code == 200, f'Link "{link_href}" returns status code {response.status_code}'
+        simple_link.click()
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        url = self.driver.current_url
+        return url, link_href
+
+    @allure.step('Check_ broken link')
+    def check_broken_link(self, url):
+        response = requests.get(url)
+        assert response.status_code != 200, f'The link {url} works, status code is 200'
+        # if response.status_code == 200:
+        #     self.find_element(self.locators.BAD_REQUEST_LINK).click()
+        #     return response.status_code
+        # else:
+        return response.status_code

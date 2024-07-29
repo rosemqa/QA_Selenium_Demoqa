@@ -1,3 +1,5 @@
+import time
+
 import allure
 from selenium.common import TimeoutException
 from selenium.webdriver import ActionChains
@@ -29,6 +31,10 @@ class BasePage:
         except TimeoutException:
             return False
         return True
+
+    def get_current_url(self, timeout=1):
+        time.sleep(timeout)
+        return self.driver.current_url
 
     def sroll_to_element(self, locator):
         """Scroll to element"""
