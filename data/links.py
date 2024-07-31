@@ -5,4 +5,5 @@ class URL:
     WEB_TABLE = 'https://demoqa.com/webtables'
     BUTTONS = 'https://demoqa.com/buttons'
     LINKS = 'https://demoqa.com/links'
+    UPLOAD_DOWNLOAD = 'https://demoqa.com/upload-download'
 

@@ -1,10 +1,11 @@
+import os
 import random
 import time
-
 import allure
 import pytest
 from data.links import URL
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
+    UploadDownloadPage
 
 
 @allure.suite('Elements')
@@ -140,9 +141,21 @@ class TestElements:
         def test_broken_link(self, driver):
             page = LinksPage(driver, URL.LINKS)
             page.open_page()
+
             response_code = page.check_broken_link('https://demoqa.com/bad-request')
             assert response_code == 400, "Unexpected status code"
 
+    @allure.feature('Upload and Download')
+    class TestUploadDownload:
+        @allure.description('Can upload a file')
+        def test_upload_file(self, driver):
+            page = UploadDownloadPage(driver, URL.UPLOAD_DOWNLOAD)
+            page.open_page()
+
+            file_name = page.upload_file()
+            upload_result = page.get_upload_result_text()
+
+            assert file_name == upload_result, 'Check file name in upload result'
 
 
 

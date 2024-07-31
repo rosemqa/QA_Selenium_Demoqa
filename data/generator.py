@@ -1,3 +1,5 @@
+import datetime
+import os
 import random
 from data.data import Person
 from faker import Faker
@@ -18,3 +20,13 @@ def generated_person():
         current_address=fake.address(),
         permanent_address=fake.address()
     )
+
+
+def generated_file():
+    """Creates .txt file in the project root directory"""
+    file_name = f"test_file_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt"
+    file_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    file_path = os.path.join(file_dir, file_name)
+    with open(file_path, 'w') as file:
+        file.write(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
+    return file_path

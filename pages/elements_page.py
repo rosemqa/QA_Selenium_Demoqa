@@ -1,13 +1,12 @@
+import os
 import random
-import time
-
 import allure
 import requests
 from selenium.webdriver.support.select import Select
-from data.generator import generated_person
+from data.generator import generated_person, generated_file
 from pages.base_page import BasePage
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePAgeLocators, ButtonsPageLocators, LinksPageLocators
+    WebTablePAgeLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators
 
 
 class TextBoxPage(BasePage):
@@ -263,3 +262,22 @@ class LinksPage(BasePage):
         #     return response.status_code
         # else:
         return response.status_code
+
+
+class UploadDownloadPage(BasePage):
+    locators = UploadDownloadPageLocators
+
+    @allure.step('Get file name in the upload result')
+    def get_upload_result_text(self):
+        return self.find_element(self.locators.UPLOAD_RESULT).text.split('\\')[-1]
+
+    @allure.step('Upload file')
+    def upload_file(self):
+        file_path = generated_file()
+        self.find_element(self.locators.UPLOAD_FILE).send_keys(file_path)
+        os.remove(file_path)  # removes file
+        return file_path.split('\\')[-1]  # returns file name
+
+    def download_file(self):
+        self.find_element(self.locators.DOWNLOAD_BTN).click()
+

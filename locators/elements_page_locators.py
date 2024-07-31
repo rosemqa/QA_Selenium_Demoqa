@@ -67,3 +67,9 @@ class LinksPageLocators:
     OUTPUT_MESSAGE = (By.CSS_SELECTOR, '#linkResponse')
 
 
+class UploadDownloadPageLocators:
+    DOWNLOAD_BTN = (By.CSS_SELECTOR, '#downloadButton')
+    UPLOAD_FILE = (By.CSS_SELECTOR, '#uploadFile')
+    UPLOAD_RESULT = (By.CSS_SELECTOR, '#uploadedFilePath')
+
+
