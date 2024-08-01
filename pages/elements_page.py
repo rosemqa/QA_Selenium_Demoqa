@@ -1,8 +1,12 @@
 import os
 import random
+import time
+
 import allure
 import requests
 from selenium.webdriver.support.select import Select
+
+from data.data import DOWNLOAD_DIR
 from data.generator import generated_person, generated_file
 from pages.base_page import BasePage
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
@@ -278,6 +282,13 @@ class UploadDownloadPage(BasePage):
         os.remove(file_path)  # removes file
         return file_path.split('\\')[-1]  # returns file name
 
+    @allure.step('Download file')
     def download_file(self):
+        file_name = self.find_element(self.locators.DOWNLOAD_BTN).get_attribute('download')
+        file_path = os.path.join(DOWNLOAD_DIR, file_name)
         self.find_element(self.locators.DOWNLOAD_BTN).click()
-
+        time.sleep(2)
+        check_file = os.path.isfile(file_path)  # проверка, объект cуществует и является файлом (не директорией)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+        return check_file

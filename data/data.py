@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 
 
@@ -12,3 +13,6 @@ class Person:
     permanent_address: str
     salary: int
     department: str
+
+
+DOWNLOAD_DIR = os.path.join(os.getcwd(), 'downloads')

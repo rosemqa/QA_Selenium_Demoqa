@@ -157,7 +157,9 @@ class TestElements:
 
             assert file_name == upload_result, 'Check file name in upload result'
 
+        @allure.description('Can download a file')
+        def test_download(self, driver):
+            page = UploadDownloadPage(driver, URL.UPLOAD_DOWNLOAD)
+            page.open_page()
 
-
-
-
+            assert page.download_file() is True, 'The file was not downloaded'
