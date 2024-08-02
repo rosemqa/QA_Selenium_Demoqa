@@ -6,4 +6,5 @@ class URL:
     BUTTONS = 'https://demoqa.com/buttons'
     LINKS = 'https://demoqa.com/links'
     UPLOAD_DOWNLOAD = 'https://demoqa.com/upload-download'
+    DYNAMIC_PROPERTIES = 'https://demoqa.com/dynamic-properties'
 

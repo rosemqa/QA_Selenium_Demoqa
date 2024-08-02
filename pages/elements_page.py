@@ -4,13 +4,15 @@ import time
 
 import allure
 import requests
+from selenium.webdriver.support.color import Color
 from selenium.webdriver.support.select import Select
 
 from data.data import DOWNLOAD_DIR
 from data.generator import generated_person, generated_file
 from pages.base_page import BasePage
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePAgeLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators
+    WebTablePAgeLocators, ButtonsPageLocators, LinksPageLocators, UploadDownloadPageLocators, \
+    DynamicPropertiesPageLocators
 
 
 class TextBoxPage(BasePage):
@@ -288,7 +290,27 @@ class UploadDownloadPage(BasePage):
         file_path = os.path.join(DOWNLOAD_DIR, file_name)
         self.find_element(self.locators.DOWNLOAD_BTN).click()
         time.sleep(2)
-        check_file = os.path.isfile(file_path)  # проверка, объект cуществует и является файлом (не директорией)
+        check_file = os.path.isfile(file_path)  # проверка что объект cуществует и является файлом (не директорией)
         if os.path.isfile(file_path):
             os.remove(file_path)
         return check_file
+
+
+class DynamicPropertiesPage(BasePage):
+    locators = DynamicPropertiesPageLocators
+
+    @allure.step('Get css color value for button text')
+    def get_color_of_button_text(self):
+        # GET COLOR IN RGB FORMAT
+        css_color_value = self.find_element(self.locators.COLOR_CHANGE_BTN).value_of_css_property('color')
+        # CONVERT RGB TO HEX FORMAT
+        hex_color = Color.from_string(css_color_value).hex
+        return hex_color
+
+    @allure.step('Check if the "Enable" button is enabled')
+    def is_enable_button_enabled(self):
+        return self.find_visible_element(self.locators.WILL_ENABLE_BTN).is_enabled()
+
+    @allure.step('Check if "Visible" button is present/visible')
+    def is_button_present(self):
+        return self.is_element_present(self.locators.VISIBLE_AFTER_BTN, timeout=1)

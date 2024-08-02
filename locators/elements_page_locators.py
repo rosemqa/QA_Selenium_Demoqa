@@ -73,3 +73,9 @@ class UploadDownloadPageLocators:
     UPLOAD_RESULT = (By.CSS_SELECTOR, '#uploadedFilePath')
 
 
+class DynamicPropertiesPageLocators:
+    WILL_ENABLE_BTN = (By.CSS_SELECTOR, '#enableAfter')
+    COLOR_CHANGE_BTN = (By.CSS_SELECTOR, '#colorChange')
+    VISIBLE_AFTER_BTN = (By.CSS_SELECTOR, '#visibleAfter')
+
+

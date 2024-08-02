@@ -5,7 +5,7 @@ import allure
 import pytest
 from data.links import URL
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
-    UploadDownloadPage
+    UploadDownloadPage, DynamicPropertiesPage
 
 
 @allure.suite('Elements')
@@ -138,6 +138,7 @@ class TestElements:
             assert link_href == current_url, f'Check link {link_href}'
             # assert current_url == 'https://demoqa.com/'
 
+        @allure.description('Broken link returns correct status code')
         def test_broken_link(self, driver):
             page = LinksPage(driver, URL.LINKS)
             page.open_page()
@@ -163,3 +164,32 @@ class TestElements:
             page.open_page()
 
             assert page.download_file() is True, 'The file was not downloaded'
+
+    @allure.feature('Dynamic Properties')
+    class TestDynamicProperties:
+        @allure.description('Check if the "Enable" button will be enabled after 5 seconds')
+        def test_dynamic_properties(self, driver):
+            page = DynamicPropertiesPage(driver, URL.DYNAMIC_PROPERTIES)
+            page.open_page()
+
+            assert page.is_enable_button_enabled() is False, 'The initial state of the button is "enabled"'
+            time.sleep(5)
+            assert page.is_enable_button_enabled(), 'The button is not enabled after 5 seconds'
+
+        @allure.description('Check if button text changes after 5 seconds')
+        def test_change_button_color(self, driver):
+            page = DynamicPropertiesPage(driver, URL.DYNAMIC_PROPERTIES)
+            page.open_page()
+
+            assert page.get_color_of_button_text() == '#ffffff', 'Initial button color is not correct'
+            time.sleep(5)
+            assert page.get_color_of_button_text() == '#dc3545', 'Final button color is not correct'
+
+        @allure.description('Check if the "Visible" button appears after 5 seconds')
+        def test_button_visible(self, driver):
+            page = DynamicPropertiesPage(driver, URL.DYNAMIC_PROPERTIES)
+            page.open_page()
+
+            assert page.is_button_present() is False, 'The initial state of the button is "visible"'
+            time.sleep(5)
+            assert page.is_button_present(), 'The button does not appear after 5 seconds'
