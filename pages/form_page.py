@@ -67,35 +67,36 @@ class PracticeFormPage(BasePage):
         # преобразуем объект datetime обратно в строку с нужным форматом (день месяц_полностью,год)
         formatted_date = date_obj.strftime('%d %B,%Y')
 
-        with allure.step(''):
+        with allure.step('Enter first name'):
             self.find_element(self.locators.FIRST_NAME_INPUT).send_keys(first_name)
-        with allure.step(''):
+        with allure.step('Enter last name'):
             self.find_element(self.locators.LAST_NAME_INPUT).send_keys(last_name)
-        with allure.step(''):
+        with allure.step('Enter email'):
             self.find_element(self.locators.EMAIL_INPUT).send_keys(email)
         with allure.step('Select gender'):
             random_gender.click()
             selected_gender = random_gender.text
-        with allure.step(''):
+        with allure.step('Enter phone number'):
             self.find_element(self.locators.PHONE_NUMBER_INPUT).send_keys(phone_number)
-        with allure.step(''):
+        with allure.step('Enter subject/select subject'):
             self.find_element(self.locators.SUBJECT_FIELD).send_keys(subject)
             self.find_element(self.locators.SUBJECT_FIELD).send_keys(Keys.ENTER)
-        with allure.step('Select hobby'):
+        with allure.step('Select a hobby'):
             random_hobby.click()
             selected_hobby = random_hobby.text
-        with allure.step(''):
+        with allure.step('Upload file'):
             self.find_element(FormPageLocators.UPLOAD_FILE).send_keys(file_path)
             os.remove(file_path)
         with allure.step('Enter address'):
             self.find_element(self.locators.ADDRESS_INPUT).send_keys(current_address)
-        with allure.step(''):
+        with allure.step('Select a random state'):
             self.find_element(self.locators.STATE_INPUT).send_keys(state)
             self.find_element(self.locators.STATE_INPUT).send_keys(Keys.ENTER)
-        with allure.step(''):
+        with allure.step('Select a random city'):
             self.find_element(self.locators.SELECT_CITY_DROPDOWN).click()
+            self.find_element(self.locators.CITY_INPUT).send_keys(Keys.DOWN * random.randint(0, 2))
             self.find_element(self.locators.CITY_INPUT).send_keys(Keys.ENTER)
-        with allure.step(''):
+        with allure.step('Click Submit button'):
             self.find_element(self.locators.SUBMIT_BUTTON).click()
         return [
             f'{first_name} {last_name}',
