@@ -11,3 +11,6 @@ class URL:
 
     # FORMS
     FORMS = 'https://demoqa.com/automation-practice-form'
+
+    # ALERTS, FRAME & WINDOWS
+    BROWSER_WINDOWS = 'https://demoqa.com/browser-windows'
