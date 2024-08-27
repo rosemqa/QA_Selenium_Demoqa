@@ -36,6 +36,25 @@ class BasePage:
             return False
         return True
 
+    # def is_new_tab_open(self):
+    #     self.wait.until(lambda d: len(d.window_handles) > 1, message='New browser tab/window was not open')
+
+    @allure.step('Check that alert is present')
+    def is_alert_present(self, timeout=10):
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.alert_is_present())
+        except TimeoutException:
+            return False
+        return True
+
+    @allure.step('Check that alert is not present')
+    def is_not_alert_present(self, timeout=1):
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.alert_is_present())
+        except TimeoutException:
+            return True
+        return False
+
     def get_current_url(self, timeout=1):
         time.sleep(timeout)
         return self.driver.current_url
