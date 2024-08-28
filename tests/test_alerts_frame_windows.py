@@ -2,7 +2,7 @@ import time
 import allure
 import pytest
 from data.links import URL
-from pages.alert_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage
+from pages.alert_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage, ModalDialogsPage
 
 
 class TestAlertsFrameWindows:
@@ -62,15 +62,41 @@ class TestAlertsFrameWindows:
 
     @allure.feature('Frames')
     class TestFrames:
-        @allure.description('Check page with the frames')
-        def test_frames(self, driver):
+        @allure.description('Check page with the iframes')
+        def test_iframes(self, driver):
             page = FramesPage(driver, URL.FRAMES)
             page.open_page()
 
-            first_frame = page.check_frame('first_frame')
-            second_frame = page.check_frame('second_frame')
+            first_iframe = page.check_iframes('first_frame')
+            second_iframe = page.check_iframes('second_frame')
 
-            assert first_frame == ('This is a sample page', '500px', '350px')
-            assert second_frame == ('This is a sample page', '500px', '350px')
+            assert first_iframe == ('This is a sample page', '500px', '350px'), \
+                'Check the first_iframe properties or text'
+            assert second_iframe == ('This is a sample page', '500px', '350px'), \
+                'Check the second_iframe properties or text'
+
+    @allure.feature('Nested Frames')
+    class TestNestedFrames:
+        @allure.description('Check page with the nested iframes')
+        def test_nested_iframes(self, driver):
+            page = NestedFramesPage(driver, URL.NESTED_FRAMES)
+            page.open_page()
+
+            parent_iframe_text, child_iframe_text = page.check_nested_frames()
+            assert parent_iframe_text == 'Parent frame', 'Check the parent iframe text'
+            assert child_iframe_text == 'Child Iframe', 'Check the child iframe text'
 
 
+@allure.feature('Modal Dialogs')
+class TestModalDialogs:
+    @allure.description('Check page with the modal dialogs')
+    def test_modal_dialogs(self, driver, check):
+        page = ModalDialogsPage(driver, URL.MODAL_DIALOGS)
+        page.open_page()
+
+        small_modal, large_modal = page.check_modal()
+        with check:
+            assert small_modal[0] == 'Small Modal', 'Check small modal tile text'
+        with check:
+            assert large_modal[0] == 'Large Modal', 'Check large modal tile text'
+        assert small_modal[1] < large_modal[1], 'The text from large modal is smaller than the text from small modal'

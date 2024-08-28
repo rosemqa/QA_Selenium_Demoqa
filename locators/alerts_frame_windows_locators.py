@@ -21,4 +21,20 @@ class FramesPageLocators:
     FIRST_FRAME = (By.CSS_SELECTOR, '#frame1')
     SECOND_FRAME = (By.CSS_SELECTOR, '#frame1')
     FRAME_TITLE = (By.CSS_SELECTOR, '#sampleHeading')
-    VVV = (By.CSS_SELECTOR, '#framesWrapper')
+
+
+class NestedFramesLocators:
+    PARENT_FRAME = (By.CSS_SELECTOR, '#frame1')
+    CHILD_FRAME = (By.CSS_SELECTOR, '[srcdoc="<p>Child Iframe</p>"]')
+    FRAME_TEXT = (By.CSS_SELECTOR, 'body')
+
+
+class ModalDialogsPageLocators:
+    SMALL_MODAL_BTN = (By.CSS_SELECTOR, '#showSmallModal')
+    CLOSE_SMALL_MODAL_BTN = (By.CSS_SELECTOR, '#closeSmallModal')
+    SMALL_MODAL_TITLE = (By.CSS_SELECTOR, '#example-modal-sizes-title-sm')
+
+    LARGE_MODAL_BTN = (By.CSS_SELECTOR, '#showLargeModal')
+    LARGE_MODAL_TITLE = (By.CSS_SELECTOR, '#example-modal-sizes-title-lg')
+
+    MODAL_TEXT = (By.CSS_SELECTOR, '.modal-body')

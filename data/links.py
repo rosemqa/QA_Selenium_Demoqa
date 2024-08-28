@@ -16,3 +16,5 @@ class URL:
     BROWSER_WINDOWS = 'https://demoqa.com/browser-windows'
     ALERTS = 'https://demoqa.com/alerts'
     FRAMES = 'https://demoqa.com/frames'
+    NESTED_FRAMES = 'https://demoqa.com/nestedframes'
+    MODAL_DIALOGS = 'https://demoqa.com/modal-dialogs'

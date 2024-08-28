@@ -55,9 +55,9 @@ class BasePage:
             return True
         return False
 
-    def switch_to_frame(self, locator):
+    def switch_to_iframe(self, locator):
         return self.wait.until(EC.frame_to_be_available_and_switch_to_it(locator),
-                               message=f"Can't find frame by locator {locator}")
+                               message=f"Can't find iframe by locator {locator}")
 
     def get_current_url(self, timeout=1):
         time.sleep(timeout)
