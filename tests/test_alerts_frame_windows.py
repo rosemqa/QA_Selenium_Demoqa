@@ -2,7 +2,7 @@ import time
 import allure
 import pytest
 from data.links import URL
-from pages.alert_frame_window_page import BrowserWindowPage, AlertsPage
+from pages.alert_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage
 
 
 class TestAlertsFrameWindows:
@@ -59,3 +59,18 @@ class TestAlertsFrameWindows:
 
             prompt_text, result_text = page.check_prompt_alert()
             assert f'You entered {prompt_text}' == result_text, 'Check result text'
+
+    @allure.feature('Frames')
+    class TestFrames:
+        @allure.description('Check page with the frames')
+        def test_frames(self, driver):
+            page = FramesPage(driver, URL.FRAMES)
+            page.open_page()
+
+            first_frame = page.check_frame('first_frame')
+            second_frame = page.check_frame('second_frame')
+
+            assert first_frame == ('This is a sample page', '500px', '350px')
+            assert second_frame == ('This is a sample page', '500px', '350px')
+
+

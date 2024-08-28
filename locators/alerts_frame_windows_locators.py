@@ -15,3 +15,10 @@ class AlertsPageLocators:
     PROMPT_BOX_ALERT_BTN = (By.CSS_SELECTOR, '#promtButton')
     CONFIRM_RESULT = (By.CSS_SELECTOR, '#confirmResult')
     PROMPT_RESULT = (By.CSS_SELECTOR, '#promptResult')
+
+
+class FramesPageLocators:
+    FIRST_FRAME = (By.CSS_SELECTOR, '#frame1')
+    SECOND_FRAME = (By.CSS_SELECTOR, '#frame1')
+    FRAME_TITLE = (By.CSS_SELECTOR, '#sampleHeading')
+    VVV = (By.CSS_SELECTOR, '#framesWrapper')

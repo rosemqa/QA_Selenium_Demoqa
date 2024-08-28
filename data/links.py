@@ -15,3 +15,4 @@ class URL:
     # ALERTS, FRAME & WINDOWS
     BROWSER_WINDOWS = 'https://demoqa.com/browser-windows'
     ALERTS = 'https://demoqa.com/alerts'
+    FRAMES = 'https://demoqa.com/frames'

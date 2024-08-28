@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 import allure
-from locators.alerts_frame_windows_locators import BrowserWindowsPageLocators, AlertsPageLocators
+from locators.alerts_frame_windows_locators import BrowserWindowsPageLocators, AlertsPageLocators, FramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -70,3 +70,28 @@ class AlertsPage(BasePage):
         prompt.accept()
         result_text = self.find_element(self.locators.PROMPT_RESULT).text
         return input_text, result_text
+
+
+class FramesPage(BasePage):
+    locators = FramesPageLocators
+
+    @allure.step('Get frame properties, switch to frame, get text in the frame')
+    def check_frame(self, frame_number):
+        if frame_number == 'first_frame':
+            frame = self.find_element(self.locators.FIRST_FRAME)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            self.driver.switch_to.frame(frame)
+            frame_text = self.find_element(self.locators.FRAME_TITLE).text
+            self.driver.switch_to.default_content()
+            return frame_text, width, height
+        elif frame_number == 'second_frame':
+            frame = self.find_element(self.locators.SECOND_FRAME)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            self.driver.switch_to.frame(frame)
+            frame_text = self.find_element(self.locators.FRAME_TITLE).text
+            return frame_text, width, height
+
+
+
