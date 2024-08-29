@@ -5,6 +5,7 @@ from data.links import URL
 from pages.alert_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage, ModalDialogsPage
 
 
+@allure.suite('Alerts Frames Windows')
 class TestAlertsFrameWindows:
     @allure.feature('Browser Windows')
     class TestBrowserWindows:
