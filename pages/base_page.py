@@ -36,6 +36,13 @@ class BasePage:
             return False
         return True
 
+    def is_not_element_present(self, locator, timeout=5):
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+        except TimeoutException:
+            return True
+        return False
+
     # def is_new_tab_open(self):
     #     self.wait.until(lambda d: len(d.window_handles) > 1, message='New browser tab/window was not open')
 

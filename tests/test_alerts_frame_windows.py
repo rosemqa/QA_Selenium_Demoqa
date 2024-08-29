@@ -100,3 +100,11 @@ class TestModalDialogs:
         with check:
             assert large_modal[0] == 'Large Modal', 'Check large modal tile text'
         assert small_modal[1] < large_modal[1], 'The text from large modal is smaller than the text from small modal'
+
+    @allure.description('Modal can be closed when clicking outside of it')
+    def test_close_modal(self, driver):
+        page = ModalDialogsPage(driver, URL.MODAL_DIALOGS)
+        page.open_page()
+
+        modal_is_closed = page.check_closing_modal()
+        assert modal_is_closed is True, 'Modal was not closed when clicking outside of it'

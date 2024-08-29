@@ -125,3 +125,10 @@ class ModalDialogsPage(BasePage):
         large_modal_text = self.get_modal_text()
         large_title_text = self.find_element(self.locators.LARGE_MODAL_TITLE).text
         return [small_title_text, len(small_modal_text)], [large_title_text, len(large_modal_text)]
+
+    @allure.step('Check closing modal by clicking outside of it')
+    def check_closing_modal(self):
+        self.find_element(self.locators.SMALL_MODAL_BTN).click()
+        self.find_element(self.locators.MODAL_OVERLAY).click()
+        time.sleep(1)
+        return self.is_not_element_present(self.locators.CLOSE_SMALL_MODAL_BTN, 1)

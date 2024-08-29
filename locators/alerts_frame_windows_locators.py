@@ -38,3 +38,4 @@ class ModalDialogsPageLocators:
     LARGE_MODAL_TITLE = (By.CSS_SELECTOR, '#example-modal-sizes-title-lg')
 
     MODAL_TEXT = (By.CSS_SELECTOR, '.modal-body')
+    MODAL_OVERLAY = (By.CSS_SELECTOR, '.modal')
