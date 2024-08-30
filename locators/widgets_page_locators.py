@@ -12,3 +12,8 @@ class AccordionPageLocators:
 
 class AutoCompletePageLocators:
     MULTIPLE_COLOR_INPUT = (By.CSS_SELECTOR, '#autoCompleteMultipleInput')
+    SINGLE_COLOR_INPUT = (By.CSS_SELECTOR, '#autoCompleteSingleInput')
+    MULTIPLE_COLOR_VALUE = (By.CSS_SELECTOR, '.auto-complete__multi-value__label')
+    SINGLE_COLOR_VALUE = (By.CSS_SELECTOR, '.auto-complete__single-value')
+    REMOVE_MULTIPLE_COLOR_ICON = (By.CSS_SELECTOR, '.auto-complete__multi-value__remove')
+    REMOVE_ALL_MULTIPLE_COLORS_ICON = (By.CSS_SELECTOR, '.auto-complete__clear-indicator')

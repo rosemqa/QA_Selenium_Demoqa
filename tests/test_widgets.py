@@ -1,3 +1,4 @@
+import time
 import allure
 from data.links import URL
 from pages.widgets_page import AccordionPage, AutoCompletePage
@@ -27,10 +28,45 @@ class TestWidgets:
             assert page.is_third_content_displayed() is False, \
                 'Third section content is still displayed after clicking the third section title'
 
+    @allure.feature('Auto Complete')
     class TestAutoComplete:
-        def test_auto_complete(self, driver):
+        @allure.description('Can enter colors into the multi input field, all entered colors are displayed')
+        def test_fill_multi_autocomplete(self, driver):
             page = AutoCompletePage(driver, URL.AUTO_COMPLETE)
             page.open_page()
 
+            entered_colors = page.enter_multy_colors()
+            colors_in_field = page.get_color_values_from_multi()
 
+            assert entered_colors == colors_in_field, 'The entered color(s) missing in the input field'
 
+        @allure.description('Can delete a color from multi input')
+        def test_delete_color_from_multi(self, driver):
+            page = AutoCompletePage(driver, URL.AUTO_COMPLETE)
+            page.open_page()
+
+            page.enter_multy_colors()
+            page.delete_color_from_multi()
+            color_count_before, color_count_after = page.delete_color_from_multi()
+
+            assert color_count_before > color_count_after, 'Color was not deleted from multi input'
+
+        @allure.description('Can delete all colors from multi input')
+        def test_delete_all_colors_from_multi(self, driver):
+            page = AutoCompletePage(driver, URL.AUTO_COMPLETE)
+            page.open_page()
+
+            page.enter_multy_colors()
+            are_colors_present = page.delete_all_colors_from_multi()
+
+            assert are_colors_present is False, 'Colors ware not deleted from multi input'
+
+        @allure.description('Can fill the single autocomplete')
+        def test_fill_single_autocomplete(self, driver):
+            page = AutoCompletePage(driver, URL.AUTO_COMPLETE)
+            page.open_page()
+
+            entered_color = page.fill_single_input()
+            color_in_field = page.get_color_value_from_single()
+
+            assert entered_color == color_in_field, 'The entered color is missing in the input field'
