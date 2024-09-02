@@ -1,25 +1,24 @@
 import datetime
 import os
 import random
-from data.data import Person
+from data.data import Person, Date
 from faker import Faker
 
-
-fake = Faker('ru_RU')
-
+ru_fake = Faker('ru_RU')
+fake = Faker()
 
 def generated_person():
     return Person(
-        fullname=fake.name_male(),
-        first_name=fake.first_name_male(),
-        last_name=fake.last_name_male(),
+        fullname=ru_fake.name_male(),
+        first_name=ru_fake.first_name_male(),
+        last_name=ru_fake.last_name_male(),
         age=random.randint(20, 90),
-        email=fake.email(),
+        email=ru_fake.email(),
         salary=random.randint(20000, 300000),
-        department=fake.job(),
-        current_address=fake.address(),
-        permanent_address=fake.address(),
-        phone_number=fake.msisdn()
+        department=ru_fake.job(),
+        current_address=ru_fake.address(),
+        permanent_address=ru_fake.address(),
+        phone_number=ru_fake.msisdn()
     )
 
 
@@ -31,3 +30,12 @@ def generated_file():
     with open(file_path, 'w') as file:
         file.write(datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
     return file_path
+
+
+def generated_date():
+    return Date(
+        day=fake.day_of_month(),
+        month=fake.month_name(),
+        year=fake.year(),
+        time=fake.time()
+    )

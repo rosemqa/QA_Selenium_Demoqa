@@ -22,3 +22,4 @@ class URL:
     # WIDGETS
     ACCORDIAN = 'https://demoqa.com/accordian'
     AUTO_COMPLETE = 'https://demoqa.com/auto-complete'
+    DATE_PICKER = 'https://demoqa.com/date-picker'

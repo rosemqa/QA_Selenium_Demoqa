@@ -1,7 +1,6 @@
-import time
 import allure
 from data.links import URL
-from pages.widgets_page import AccordionPage, AutoCompletePage
+from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage
 
 
 @allure.suite('Widgets')
@@ -70,3 +69,20 @@ class TestWidgets:
             color_in_field = page.get_color_value_from_single()
 
             assert entered_color == color_in_field, 'The entered color is missing in the input field'
+
+    @allure.feature('Date Picker')
+    class TestDatePicker:
+        @allure.description('Can change date in the date picker')
+        def test_date_picker(self, driver):
+            page = DatePickerPage(driver, URL.DATE_PICKER)
+            page.open_page()
+
+            date_value_before, date_value_after = page.select_random_date()
+            assert date_value_before != date_value_after, 'The date has not be changed'
+
+        @allure.description('Can change date and time in the date and time picker')
+        def test_date_and_time_picker(self, driver):
+            page = DatePickerPage(driver, URL.DATE_PICKER)
+            page.open_page()
+            date_value_before, date_value_after = page.select_random_date_and_time()
+            assert date_value_before != date_value_after, 'The date and time have not be changed'

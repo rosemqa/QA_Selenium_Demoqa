@@ -16,4 +16,12 @@ class Person:
     phone_number: str
 
 
+@dataclass
+class Date:
+    day: str
+    month: str
+    year: str
+    time: str
+
+
 DOWNLOAD_DIR = os.path.join(os.getcwd(), 'downloads')

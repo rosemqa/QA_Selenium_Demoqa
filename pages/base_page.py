@@ -3,6 +3,7 @@ import time
 import allure
 from selenium.common import TimeoutException
 from selenium.webdriver import ActionChains
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -45,6 +46,20 @@ class BasePage:
 
     # def is_new_tab_open(self):
     #     self.wait.until(lambda d: len(d.window_handles) > 1, message='New browser tab/window was not open')
+
+    @allure.step('Select item in drop-down list by visible text')
+    def select_item_in_dropdown_by_text(self, locator, text):
+        """Select item in drop-down list by visible text"""
+        Select(self.find_element(locator)).select_by_visible_text(text)
+
+    @allure.step('Select element in element list by text')
+    def select_element_in_list_by_text(self, locator, text):
+        """Select element in element list by text"""
+        element_list = self.find_elements(locator)
+        for element in element_list:
+            if element.text == text:
+                element.click()
+                break
 
     @allure.step('Check that alert is present')
     def is_alert_present(self, timeout=10):

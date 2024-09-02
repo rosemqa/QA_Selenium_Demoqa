@@ -2,8 +2,10 @@ import random
 import time
 import allure
 from selenium.webdriver import Keys
+from selenium.webdriver.support.select import Select
 
-from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators
+from data.generator import generated_date
+from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators
 from pages.base_page import BasePage
 
 
@@ -79,3 +81,39 @@ class AutoCompletePage(BasePage):
         self.find_element(self.locators.SINGLE_COLOR_INPUT).send_keys(color)
         self.find_element(self.locators.SINGLE_COLOR_INPUT).send_keys(Keys.ENTER)
         return color
+
+
+class DatePickerPage(BasePage):
+    locators = DatePickerPageLocators
+
+    @allure.step('Select month, year and day in the date picker')
+    def select_random_date(self):
+        date = generated_date()
+        day = str(int(date.day))
+        date_input = self.find_element(self.locators.DATE_INPUT)
+        date_value_before = date_input.get_attribute('value')
+        date_input.click()
+        self.select_item_in_dropdown_by_text(self.locators.DATE_MONTH_DROPDOWN, date.month)
+        self.select_item_in_dropdown_by_text(self.locators.DATE_YEAR_DROPDOWN, date.year)
+        self.select_element_in_list_by_text(self.locators.DATE_DAY, day)
+        date_value_after = date_input.get_attribute('value')
+        return date_value_before, date_value_after
+
+    @allure.step('Select month, year, day and time in the date and time picker')
+    def select_random_date_and_time(self):
+        date = generated_date()
+        random_month = date.month
+        random_day = str(int(date.day))
+        random_time = date.time[:3] + random.choice(['00', '15', '30', '45'])
+        date_input = self.find_element(self.locators.DATE_AND_TIME_INPUT)
+        date_value_before = date_input.get_attribute('value')
+        date_input.click()
+        self.find_element(self.locators.DATE_AND_TIME_MONTH_DROPDOWN).click()
+        self.select_element_in_list_by_text(self.locators.DATE_AND_TIME_MONTH, random_month)
+        self.find_element(self.locators.DATE_AND_TIME_YEAR_DROPDOWN).click()
+        random_year = self.find_elements(self.locators.DATE_AND_TIME_YEAR)[random.randint(1, 11)].text
+        self.select_element_in_list_by_text(self.locators.DATE_AND_TIME_YEAR, random_year)
+        self.select_element_in_list_by_text(self.locators.DATE_DAY, random_day)
+        self.select_element_in_list_by_text(self.locators.DATE_AND_TIME_TIME, random_time)
+        date_value_after = date_input.get_attribute('value')
+        return date_value_before, date_value_after
