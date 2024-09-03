@@ -26,6 +26,10 @@ class BasePage:
         return self.wait.until(EC.visibility_of_element_located(locator),
                                message=f"Can't find element by locator {locator}")
 
+    def find_present_element(self, locator):
+        return self.wait.until(EC.presence_of_element_located(locator),
+                               message=f"Can't find element by locator {locator}")
+
     def find_elements(self, locator):
         return self.wait.until(EC.presence_of_all_elements_located(locator),
                                message=f"Can't find elements by locator {locator}")

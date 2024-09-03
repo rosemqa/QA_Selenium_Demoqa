@@ -2,10 +2,9 @@ import random
 import time
 import allure
 from selenium.webdriver import Keys
-from selenium.webdriver.support.select import Select
-
 from data.generator import generated_date
-from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators
+from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
+    ProgressBarPageLocators, SliderPageLocators
 from pages.base_page import BasePage
 
 
@@ -117,3 +116,29 @@ class DatePickerPage(BasePage):
         self.select_element_in_list_by_text(self.locators.DATE_AND_TIME_TIME, random_time)
         date_value_after = date_input.get_attribute('value')
         return date_value_before, date_value_after
+
+
+class SliderPage(BasePage):
+    locators = SliderPageLocators
+
+    @allure.step('Move the slider to the right or left')
+    def move_slider(self):
+        value_before = self.find_element(self.locators.SLIDER_VALUE_BOX).get_attribute('value')
+        slider_handle = self.find_element(self.locators.SLIDER_HANDLE)
+        self.drag_and_drop_by_offset(slider_handle, random.randint(-150, 150), 0)
+        value_after = self.find_element(self.locators.SLIDER_VALUE_BOX).get_attribute('value')
+        return value_before, value_after
+
+
+class ProgressBarPage(BasePage):
+    locators = ProgressBarPageLocators
+
+    @allure.step('Start/stop progress bar to change its value')
+    def change_progress_bar_value(self):
+        value_before = self.find_present_element(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
+        start_button = self.find_element(self.locators.START_BTN)
+        start_button.click()
+        time.sleep(random.randint(3, 6))
+        start_button.click()
+        value_after = self.find_element(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
+        return value_before, value_after

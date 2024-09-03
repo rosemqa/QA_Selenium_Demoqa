@@ -1,6 +1,8 @@
+import time
+
 import allure
 from data.links import URL
-from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage
+from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage
 
 
 @allure.suite('Widgets')
@@ -84,5 +86,27 @@ class TestWidgets:
         def test_date_and_time_picker(self, driver):
             page = DatePickerPage(driver, URL.DATE_PICKER)
             page.open_page()
+
             date_value_before, date_value_after = page.select_random_date_and_time()
             assert date_value_before != date_value_after, 'The date and time have not be changed'
+
+    @allure.feature('Slider')
+    class TestSlider:
+        @allure.description('Can move slider and change its value')
+        def test_slider(self, driver):
+            page = SliderPage(driver, URL.SLIDER)
+            page.open_page()
+
+            value_before, value_after = page.move_slider()
+            time.sleep(3)
+            assert value_before != value_after, 'The slider value has not been changed'
+
+    @allure.feature('Progress Bar')
+    class TestProgressBar:
+        @allure.description('Progress bar value changes when moving')
+        def test_change_progress_bar(self, driver):
+            page = ProgressBarPage(driver, URL.PROGRESS_BAR)
+            page.open_page()
+
+            value_before, value_after = page.change_progress_bar_value
+            assert value_before != value_after, 'The progress bar value has not been changed'

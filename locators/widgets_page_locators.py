@@ -31,3 +31,14 @@ class DatePickerPageLocators:
     DATE_AND_TIME_MONTH = (By.CSS_SELECTOR, '.react-datepicker__month-option')
     DATE_AND_TIME_YEAR = (By.CSS_SELECTOR, '.react-datepicker__year-option')
     DATE_AND_TIME_TIME = (By.CSS_SELECTOR, '.react-datepicker__time-list-item')
+
+
+class SliderPageLocators:
+    SLIDER_HANDLE = (By.CSS_SELECTOR, '.range-slider ')
+    SLIDER_VALUE_BOX = (By.CSS_SELECTOR, '#sliderValue')
+
+
+class ProgressBarPageLocators:
+    START_BTN = (By.CSS_SELECTOR, '#startStopButton')
+    RESET_BTN = (By.CSS_SELECTOR, '#resetButton')
+    PROGRESS_BAR = (By.CSS_SELECTOR, '.progress-bar')
