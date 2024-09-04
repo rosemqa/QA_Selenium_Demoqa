@@ -4,7 +4,7 @@ import allure
 from selenium.webdriver import Keys
 from data.generator import generated_date
 from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    ProgressBarPageLocators, SliderPageLocators
+    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators
 from pages.base_page import BasePage
 
 
@@ -156,3 +156,27 @@ class ProgressBarPage(BasePage):
         self.find_element(self.locators.RESET_BTN).click()
         value_after_reset = self.find_present_element(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
         return value_after_reset
+
+
+class TabsPage(BasePage):
+    locators = TabsPageLocators
+
+    @allure.step('Click a tab and get the tab name and the length of the tab text')
+    def check_tabs(self, tab_name):
+        tabs = {'What': {
+                    'title': self.locators.WHAT_TAB,
+                    'content': self.locators.WHAT_TAB_CONTENT},
+                'Origin': {
+                     'title': self.locators.ORIGIN_TAB,
+                     'content': self.locators.ORIGIN_TAB_CONTENT},
+                'Use': {
+                    'title': self.locators.USE_TAB,
+                    'content': self.locators.USE_TAB_CONTENT},
+                'More': {
+                    'title': self.locators.MORE_TAB,
+                    'content': self.locators.MORE_TAB_CONTENT}
+                }
+        tab = self.find_element(tabs[tab_name]['title'])
+        tab.click()
+        tab_content = self.find_element(tabs[tab_name]['content']).text
+        return tab.text, len(tab_content)

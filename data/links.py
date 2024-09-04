@@ -25,3 +25,5 @@ class URL:
     DATE_PICKER = 'https://demoqa.com/date-picker'
     SLIDER = 'https://demoqa.com/slider'
     PROGRESS_BAR = 'https://demoqa.com/progress-bar'
+    TABS = 'https://demoqa.com/tabs'
+

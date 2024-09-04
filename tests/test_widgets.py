@@ -1,8 +1,10 @@
 import time
 
 import allure
+import pytest
+
 from data.links import URL
-from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage
+from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage
 
 
 @allure.suite('Widgets')
@@ -130,3 +132,15 @@ class TestWidgets:
 
             value_after_reset = page.check_reset()
             assert value_after_reset == '0'
+
+    @allure.feature('Tabs')
+    class TestTabs:
+        @allure.description('Can switch between tabs, the tabs have content text')
+        @pytest.mark.parametrize('tab_name', ['What', 'Origin', 'Use', 'More'])
+        def test_tabs(self, driver, tab_name):
+            page = TabsPage(driver, URL.TABS)
+            page.open_page()
+
+            what_tab_name, what_tab_content = page.check_tabs(tab_name)
+            assert what_tab_name == tab_name and what_tab_content != 0, \
+                f'"{tab_name}" tab name is not correct or missing content text'

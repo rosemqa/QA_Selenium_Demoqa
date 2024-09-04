@@ -42,3 +42,15 @@ class ProgressBarPageLocators:
     START_BTN = (By.CSS_SELECTOR, '#startStopButton')
     RESET_BTN = (By.CSS_SELECTOR, '#resetButton')
     PROGRESS_BAR = (By.CSS_SELECTOR, '.progress-bar')
+
+
+class TabsPageLocators:
+    WHAT_TAB = (By.CSS_SELECTOR, '#demo-tab-what')
+    ORIGIN_TAB = (By.CSS_SELECTOR, '#demo-tab-origin')
+    USE_TAB = (By.CSS_SELECTOR, '#demo-tab-use')
+    MORE_TAB = (By.CSS_SELECTOR, '#demo-tab-more')
+
+    WHAT_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-what')
+    ORIGIN_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-origin')
+    USE_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-use')
+    MORE_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-more')
