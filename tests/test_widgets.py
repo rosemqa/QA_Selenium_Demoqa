@@ -98,7 +98,6 @@ class TestWidgets:
             page.open_page()
 
             value_before, value_after = page.move_slider()
-            time.sleep(3)
             assert value_before != value_after, 'The slider value has not been changed'
 
     @allure.feature('Progress Bar')
@@ -108,5 +107,26 @@ class TestWidgets:
             page = ProgressBarPage(driver, URL.PROGRESS_BAR)
             page.open_page()
 
-            value_before, value_after = page.change_progress_bar_value
+            value_before, value_after = page.change_progress_bar_value()
             assert value_before != value_after, 'The progress bar value has not been changed'
+
+        @allure.description('Start/Stop button name changes when clicking on it')
+        def test_start_button_name_changes(self, driver):
+            page = ProgressBarPage(driver, URL.PROGRESS_BAR)
+            page.open_page()
+
+            initial_button_name = page.click_start_button()
+            button_name_after_one_click = page.click_start_button()
+            button_name_after_two_clicks = page.click_start_button()
+
+            assert initial_button_name == 'Start', 'Check initial button name'
+            assert button_name_after_one_click == 'Stop', 'Check button name after one click'
+            assert button_name_after_two_clicks == 'Start', 'Check button name after two clicks'
+
+        @allure.description('Can reset the progress bar')
+        def test_reset(self, driver):
+            page = ProgressBarPage(driver, URL.PROGRESS_BAR)
+            page.open_page()
+
+            value_after_reset = page.check_reset()
+            assert value_after_reset == '0'

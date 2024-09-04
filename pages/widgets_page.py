@@ -136,9 +136,23 @@ class ProgressBarPage(BasePage):
     @allure.step('Start/stop progress bar to change its value')
     def change_progress_bar_value(self):
         value_before = self.find_present_element(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
-        start_button = self.find_element(self.locators.START_BTN)
-        start_button.click()
+        self.click_start_button()
         time.sleep(random.randint(3, 6))
-        start_button.click()
+        self.click_start_button()
         value_after = self.find_element(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
         return value_before, value_after
+
+    @allure.step('Click Start/Stop button and get button name')
+    def click_start_button(self):
+        start_button = self.find_element(self.locators.START_BTN)
+        button_text = start_button.text
+        start_button.click()
+        return button_text
+
+    @allure.step('Fill the progress bar, click Reset button, get the progress bar value')
+    def check_reset(self):
+        self.click_start_button()
+        time.sleep(10)
+        self.find_element(self.locators.RESET_BTN).click()
+        value_after_reset = self.find_present_element(self.locators.PROGRESS_BAR).get_attribute('aria-valuenow')
+        return value_after_reset
