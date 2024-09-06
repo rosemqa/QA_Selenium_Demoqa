@@ -1,11 +1,9 @@
 import time
-
 import allure
 import pytest
-
 from data.links import URL
 from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage, \
-    ToolTipsPage
+    ToolTipsPage, MenuPage
 
 
 @allure.suite('Widgets')
@@ -146,8 +144,8 @@ class TestWidgets:
             assert what_tab_name == tab_name and what_tab_content != 0, \
                 f'"{tab_name}" tab name is not correct or missing content text'
 
+    @allure.feature('Tool Tips')
     class TestToolTips:
-
         tool_tips = [
             ('button', 'You hovered over the Button'),
             ('text_field', 'You hovered over the text field'),
@@ -163,3 +161,23 @@ class TestWidgets:
 
             toll_tip_text = page.get_toll_tip_text(hover_element)
             assert toll_tip_text == expected_text, f'Check tool tip text for "{hover_element}" element'
+
+    @allure.feature('Menu')
+    class TestMenu:
+        @allure.description('Can open the menu/submenu, menu items have correct names')
+        def test_menu(self, driver):
+            expected_item_names = [
+                'Main Item 1',
+                'Main Item 2',
+                'Sub Item',
+                'Sub Item',
+                'SUB SUB LIST »',
+                'Sub Sub Item 1',
+                'Sub Sub Item 2',
+                'Main Item 30'
+            ]
+            page = MenuPage(driver, URL.MENU)
+            page.open_page()
+
+            menu_items = page.get_menu_items_names()
+            assert menu_items == expected_item_names, 'Check names of the menu items'

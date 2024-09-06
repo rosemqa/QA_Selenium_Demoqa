@@ -4,7 +4,7 @@ import allure
 from selenium.webdriver import Keys
 from data.generator import generated_date
 from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators
+    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
 from pages.base_page import BasePage
 
 
@@ -195,3 +195,16 @@ class ToolTipsPage(BasePage):
         }
         self.move_to_element(hover_elements[hover_element])
         return self.find_element(self.locators.TOOL_TIP).text
+
+
+class MenuPage(BasePage):
+    locators = MenuPageLocators
+
+    @allure.step('Hover over menu items and get their names')
+    def get_menu_items_names(self):
+        menu_item_list = self.find_elements(self.locators.MENU_ITEM)
+        menu_item_names_list = []
+        for item in menu_item_list:
+            self.move_to_element(item)
+            menu_item_names_list.append(item.text)
+        return menu_item_names_list

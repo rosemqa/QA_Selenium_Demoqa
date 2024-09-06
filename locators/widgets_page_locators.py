@@ -63,3 +63,7 @@ class ToolTipsPageLocators:
     SECTION_LINK = (By.XPATH, '//*[.="1.10.32"]')
 
     TOOL_TIP = (By.CSS_SELECTOR, '.tooltip-inner')
+
+
+class MenuPageLocators:
+    MENU_ITEM = (By.CSS_SELECTOR, 'li a')

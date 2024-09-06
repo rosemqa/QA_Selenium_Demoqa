@@ -27,3 +27,4 @@ class URL:
     PROGRESS_BAR = 'https://demoqa.com/progress-bar'
     TABS = 'https://demoqa.com/tabs'
     TOOL_TIPS = 'https://demoqa.com/tool-tips'
+    MENU = 'https://demoqa.com/menu'
