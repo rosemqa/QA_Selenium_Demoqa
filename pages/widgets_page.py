@@ -4,7 +4,7 @@ import allure
 from selenium.webdriver import Keys
 from data.generator import generated_date
 from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators
+    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators
 from pages.base_page import BasePage
 
 
@@ -180,3 +180,18 @@ class TabsPage(BasePage):
         tab.click()
         tab_content = self.find_element(tabs[tab_name]['content']).text
         return tab.text, len(tab_content)
+
+
+class ToolTipsPage(BasePage):
+    locators = ToolTipsPageLocators
+
+    @allure.step('Hover over an element and get its tooltip text')
+    def get_toll_tip_text(self, hover_element):
+        hover_elements = {
+            'button': self.locators.BUTTON,
+            'text_field': self.locators.TEXT_FIELD,
+            'contrary_link': self.locators.CONTRARY_LINK,
+            'section_link': self.locators.SECTION_LINK
+        }
+        self.move_to_element(hover_elements[hover_element])
+        return self.find_element(self.locators.TOOL_TIP).text

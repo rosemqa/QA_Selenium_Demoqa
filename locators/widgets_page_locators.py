@@ -54,3 +54,12 @@ class TabsPageLocators:
     ORIGIN_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-origin')
     USE_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-use')
     MORE_TAB_CONTENT = (By.CSS_SELECTOR, '#demo-tabpane-more')
+
+
+class ToolTipsPageLocators:
+    BUTTON = (By.CSS_SELECTOR, '#toolTipButton')
+    TEXT_FIELD = (By.CSS_SELECTOR, '#toolTipTextField')
+    CONTRARY_LINK = (By.XPATH, '//*[.="Contrary"]')
+    SECTION_LINK = (By.XPATH, '//*[.="1.10.32"]')
+
+    TOOL_TIP = (By.CSS_SELECTOR, '.tooltip-inner')

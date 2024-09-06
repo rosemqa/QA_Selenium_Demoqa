@@ -4,7 +4,8 @@ import allure
 import pytest
 
 from data.links import URL
-from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage
+from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage, \
+    ToolTipsPage
 
 
 @allure.suite('Widgets')
@@ -144,3 +145,21 @@ class TestWidgets:
             what_tab_name, what_tab_content = page.check_tabs(tab_name)
             assert what_tab_name == tab_name and what_tab_content != 0, \
                 f'"{tab_name}" tab name is not correct or missing content text'
+
+    class TestToolTips:
+
+        tool_tips = [
+            ('button', 'You hovered over the Button'),
+            ('text_field', 'You hovered over the text field'),
+            ('contrary_link', 'You hovered over the Contrary'),
+            ('section_link', 'You hovered over the 1.10.32')
+        ]
+
+        @allure.description('Check the tool tips text')
+        @pytest.mark.parametrize('hover_element, expected_text', tool_tips)
+        def test_tool_tips(self, driver, hover_element, expected_text):
+            page = ToolTipsPage(driver, URL.TOOL_TIPS)
+            page.open_page()
+
+            toll_tip_text = page.get_toll_tip_text(hover_element)
+            assert toll_tip_text == expected_text, f'Check tool tip text for "{hover_element}" element'
