@@ -3,7 +3,7 @@ import allure
 import pytest
 from data.links import URL
 from pages.widgets_page import AccordionPage, AutoCompletePage, DatePickerPage, ProgressBarPage, SliderPage, TabsPage, \
-    ToolTipsPage, MenuPage
+    ToolTipsPage, MenuPage, SelectMenuPage
 
 
 @allure.suite('Widgets')
@@ -181,3 +181,36 @@ class TestWidgets:
 
             menu_items = page.get_menu_items_names()
             assert menu_items == expected_item_names, 'Check names of the menu items'
+
+    @allure.feature('Select Menu')
+    class TestSelectMenu:
+
+        @allure.description('Can select a title in the "Select One" menu')
+        def test_select_one_menu(self, driver):
+            page = SelectMenuPage(driver, URL.SELECT_MENU)
+            page.open_page()
+
+            entered_title = page.select_title()
+            field_value = page.get_value_from_title_field()
+            assert entered_title == field_value, 'The entered title is missing in the input field'
+
+        @allure.description('Can select colors in "Multiselect drop down", all selected colors are displayed')
+        def test_multiselect_menu(self, driver):
+            page = SelectMenuPage(driver, URL.SELECT_MENU)
+            page.open_page()
+
+            entered_colors = page.select_multiple_colors()
+            field_values = page.get_values_from_multiselect_field()
+            assert entered_colors == field_values, 'The entered colors are missing in the input field'
+
+        @allure.description('Check that expected colors are present in Old Style Select Menu')
+        def test_old_style_select(self, driver, check):
+            expected_color_list = ['Red', 'Blue', 'Green']
+
+            page = SelectMenuPage(driver, URL.SELECT_MENU)
+            page.open_page()
+
+            color_list = page.get_values_from_old_style_select()
+            for color in expected_color_list:
+                with check:
+                    assert color in color_list, f'{color} color is missing in the Dropdown'

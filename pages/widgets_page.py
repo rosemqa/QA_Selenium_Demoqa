@@ -2,9 +2,12 @@ import random
 import time
 import allure
 from selenium.webdriver import Keys
+from selenium.webdriver.support.select import Select
+
 from data.generator import generated_date
 from locators.widgets_page_locators import AccordionPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
+    ProgressBarPageLocators, SliderPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators, \
+    SelectMenuLocators
 from pages.base_page import BasePage
 
 
@@ -164,18 +167,18 @@ class TabsPage(BasePage):
     @allure.step('Click a tab and get the tab name and the length of the tab text')
     def check_tabs(self, tab_name):
         tabs = {'What': {
-                    'title': self.locators.WHAT_TAB,
-                    'content': self.locators.WHAT_TAB_CONTENT},
-                'Origin': {
-                     'title': self.locators.ORIGIN_TAB,
-                     'content': self.locators.ORIGIN_TAB_CONTENT},
-                'Use': {
-                    'title': self.locators.USE_TAB,
-                    'content': self.locators.USE_TAB_CONTENT},
-                'More': {
-                    'title': self.locators.MORE_TAB,
-                    'content': self.locators.MORE_TAB_CONTENT}
-                }
+            'title': self.locators.WHAT_TAB,
+            'content': self.locators.WHAT_TAB_CONTENT},
+            'Origin': {
+                'title': self.locators.ORIGIN_TAB,
+                'content': self.locators.ORIGIN_TAB_CONTENT},
+            'Use': {
+                'title': self.locators.USE_TAB,
+                'content': self.locators.USE_TAB_CONTENT},
+            'More': {
+                'title': self.locators.MORE_TAB,
+                'content': self.locators.MORE_TAB_CONTENT}
+        }
         tab = self.find_element(tabs[tab_name]['title'])
         tab.click()
         tab_content = self.find_element(tabs[tab_name]['content']).text
@@ -208,3 +211,37 @@ class MenuPage(BasePage):
             self.move_to_element(item)
             menu_item_names_list.append(item.text)
         return menu_item_names_list
+
+
+class SelectMenuPage(BasePage):
+    locators = SelectMenuLocators
+    titles = ['Dr.', 'Mr.', 'Mrs.', 'Ms.', 'Prof.', 'Other']
+    colors = ['Green', 'Blue', 'Black', 'Red']
+
+    @allure.step('Get the tile value in the Select One menu')
+    def get_value_from_title_field(self):
+        return self.find_element(self.locators.SELECT_ONE_VALUE).text
+
+    def get_values_from_multiselect_field(self):
+        values_list = self.find_elements(self.locators.MULTISELECT_ITEM_VALUE)
+        return [value.text for value in values_list]
+
+    @allure.step('Enter a random title (from the list) and press Enter')
+    def select_title(self):
+        title = random.choice(self.titles)
+        self.find_element(self.locators.SELECT_ONE_INPUT).send_keys(title)
+        self.find_element(self.locators.SELECT_ONE_INPUT).send_keys(Keys.ENTER)
+        return title
+
+    @allure.step('Enter some random colors (from the list) and press Enter')
+    def select_multiple_colors(self):
+        colors = random.sample(self.colors, k=random.randint(2, 4))
+        for color in colors:
+            self.find_element(self.locators.MULTISELECT_INPUT).send_keys(color)
+            self.find_element(self.locators.MULTISELECT_INPUT).send_keys(Keys.ENTER)
+        return colors
+
+    @allure.step('Get color list from Old Style Select Menu')
+    def get_values_from_old_style_select(self):
+        dropdown = Select(self.find_element(self.locators.OLD_STYLE_SELECT))
+        return [i.text for i in dropdown.options]

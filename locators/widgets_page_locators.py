@@ -67,3 +67,12 @@ class ToolTipsPageLocators:
 
 class MenuPageLocators:
     MENU_ITEM = (By.CSS_SELECTOR, 'li a')
+
+
+class SelectMenuLocators:
+    SELECT_VALUE_INPUT = (By.CSS_SELECTOR, '#withOptGroup input')
+    SELECT_ONE_INPUT = (By.CSS_SELECTOR, '#selectOne input')
+    SELECT_ONE_VALUE = (By.CSS_SELECTOR, '.css-1uccc91-singleValue')
+    OLD_STYLE_SELECT = (By.CSS_SELECTOR, '#oldSelectMenu')
+    MULTISELECT_INPUT = (By.XPATH, '(//input)[3]')
+    MULTISELECT_ITEM_VALUE = (By.CSS_SELECTOR, '.css-12jo7m5')
