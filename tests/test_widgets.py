@@ -1,4 +1,3 @@
-import time
 import allure
 import pytest
 from data.links import URL
@@ -48,7 +47,6 @@ class TestWidgets:
             page.open_page()
 
             page.enter_multy_colors()
-            page.delete_color_from_multi()
             color_count_before, color_count_after = page.delete_color_from_multi()
 
             assert color_count_before > color_count_after, 'Color was not deleted from multi input'
@@ -214,3 +212,21 @@ class TestWidgets:
             for color in expected_color_list:
                 with check:
                     assert color in color_list, f'{color} color is missing in the Dropdown'
+
+        @allure.description('Can delete a value from multiselect field')
+        def test_delete_one_value_from_multiselect(self, driver):
+            page = SelectMenuPage(driver, URL.SELECT_MENU)
+            page.open_page()
+
+            page.select_multiple_colors()
+            value_count_before, value_count_after = page.delete_one_value_from_multiselect()
+            assert value_count_before > value_count_after, 'A value was not deleted from multiselect field'
+
+        @allure.description('Can clear the multiselect field')
+        def test_clear_multiselect_field(self, driver):
+            page = SelectMenuPage(driver, URL.SELECT_MENU)
+            page.open_page()
+
+            page.select_multiple_colors()
+            is_field_empty = page.clear_multiselect_field()
+            assert is_field_empty is True, 'The multiselect field was not cleared'

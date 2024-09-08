@@ -226,6 +226,11 @@ class SelectMenuPage(BasePage):
         values_list = self.find_elements(self.locators.MULTISELECT_ITEM_VALUE)
         return [value.text for value in values_list]
 
+    @allure.step('Get color list from Old Style Select Menu')
+    def get_values_from_old_style_select(self):
+        dropdown = Select(self.find_element(self.locators.OLD_STYLE_SELECT))
+        return [i.text for i in dropdown.options]
+
     @allure.step('Enter a random title (from the list) and press Enter')
     def select_title(self):
         title = random.choice(self.titles)
@@ -241,7 +246,15 @@ class SelectMenuPage(BasePage):
             self.find_element(self.locators.MULTISELECT_INPUT).send_keys(Keys.ENTER)
         return colors
 
-    @allure.step('Get color list from Old Style Select Menu')
-    def get_values_from_old_style_select(self):
-        dropdown = Select(self.find_element(self.locators.OLD_STYLE_SELECT))
-        return [i.text for i in dropdown.options]
+    @allure.step('Delete one value from multiselect field')
+    def delete_one_value_from_multiselect(self):
+        count_value_before = len(self.find_elements(self.locators.MULTISELECT_ITEM_VALUE))
+        self.find_element(self.locators.MULTISELECT_REMOVE_ITEM_ICON).click()
+        count_values_after = len(self.find_elements(self.locators.MULTISELECT_ITEM_VALUE))
+        return count_value_before, count_values_after
+
+    @allure.step('Clear the multiselect field, check that field is empty')
+    def clear_multiselect_field(self):
+        self.find_element(self.locators.MULTISELECT_CLEAR_ICON).click()
+        is_field_empty = self.is_not_element_present(self.locators.MULTISELECT_ITEM_VALUE, timeout=1)
+        return is_field_empty

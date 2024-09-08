@@ -76,3 +76,5 @@ class SelectMenuLocators:
     OLD_STYLE_SELECT = (By.CSS_SELECTOR, '#oldSelectMenu')
     MULTISELECT_INPUT = (By.XPATH, '(//input)[3]')
     MULTISELECT_ITEM_VALUE = (By.CSS_SELECTOR, '.css-12jo7m5')
+    MULTISELECT_REMOVE_ITEM_ICON = (By.CSS_SELECTOR, '.css-xb97g8')
+    MULTISELECT_CLEAR_ICON = (By.CSS_SELECTOR, 'div.css-1gtu0rj-indicatorContainer:nth-child(1)>svg')
