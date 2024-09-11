@@ -32,3 +32,4 @@ class URL:
 
     # INTERACTIONS
     SORTABLE = 'https://demoqa.com/sortable'
+    SELECTABLE = 'https://demoqa.com/selectable'
