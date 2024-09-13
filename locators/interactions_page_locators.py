@@ -15,3 +15,10 @@ class SelectablePageLocators:
     ACTIVE_LIST_ITEM = (By.CSS_SELECTOR, '#demo-tabpane-list .active')
     GRID_ITEM = (By.CSS_SELECTOR, '#demo-tabpane-grid .list-group-item')
     ACTIVE_GRID_ITEM = (By.CSS_SELECTOR, '#demo-tabpane-grid .active')
+
+
+class ResizablePageLocators:
+    RESIZABLE_BOX = (By.CSS_SELECTOR, '#resizableBoxWithRestriction')
+    RESIZABLE_BOX_HANDLE = (By.CSS_SELECTOR, '#resizableBoxWithRestriction .react-resizable-handle')
+    RESIZABLE = (By.CSS_SELECTOR, '#resizable')
+    RESIZABLE_HANDLE = (By.CSS_SELECTOR, '#resizable .react-resizable-handle')

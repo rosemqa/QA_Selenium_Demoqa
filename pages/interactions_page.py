@@ -1,7 +1,7 @@
 import random
 import time
 import allure
-from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators
+from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
 from pages.base_page import BasePage
 
 
@@ -58,3 +58,33 @@ class SelectablePage(BasePage):
         for item in active_items:
             item.click()
         return self.is_element_present(self.tabs[tab]['active_item'], timeout=1)
+
+
+class ResizablePage(BasePage):
+    locators = ResizablePageLocators
+
+    @allure.step('Get the size of the resizable element')
+    def get_size(self, locator):
+        size = self.find_element(locator).get_attribute('style')
+        width = int(size.split(';')[0].split(': ')[1].rstrip('px'))
+        height = int(size.split(';')[1].split(': ')[1].rstrip('px'))
+        return width, height
+
+    @allure.step('Resize the Resizable box element')
+    def resize_box(self):
+        handle = self.find_element(self.locators.RESIZABLE_BOX_HANDLE)
+        self.drag_and_drop_by_offset(handle, 301, 101)
+        max_size = self.get_size(self.locators.RESIZABLE_BOX)
+        self.drag_and_drop_by_offset(handle, -360, -160)
+        min_size = self.get_size(self.locators.RESIZABLE_BOX)
+        return max_size, min_size
+
+    @allure.step('Resize the Resizable element')
+    def resize_resizable(self):
+        default_size = self.get_size(self.locators.RESIZABLE)
+        handle = self.find_visible_element(self.locators.RESIZABLE_HANDLE)
+        self.drag_and_drop_by_offset(handle, 500, 50)
+        max_size = self.get_size(self.locators.RESIZABLE)
+        self.drag_and_drop_by_offset(handle, -150, -150)
+        min_size = self.get_size(self.locators.RESIZABLE)
+        return default_size, max_size, min_size
