@@ -2,7 +2,7 @@ import time
 import allure
 import pytest
 from data.links import URL
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
 
 
 @allure.suite('Interactions')
@@ -64,3 +64,54 @@ class TestInteractions:
                 assert min_size[0] < max_size[0], 'The size was not decreased along the X axis'
             with check:
                 assert min_size[1] < max_size[1], 'The size was not decreased along the Y axis'
+
+    @allure.feature('Droppable elements')
+    class TestDroppablePage:
+        @allure.description('Can drop the drag element into the drop element')
+        def test_simple_drop(self, driver):
+            page = DroppablePage(driver, URL.DROPPABLE)
+            page.open_page()
+
+            drop_text = page.drop_simple()
+            assert drop_text == 'Dropped!', 'The Drag element was not dropped'
+
+        @allure.description('Drop element can accept or reject relevant drag elements')
+        def test_acceptable_drop(self, driver):
+            page = DroppablePage(driver, URL.DROPPABLE)
+            page.open_page()
+
+            not_acceptable_drop, acceptable_drop = page.drop_acceptable()
+            assert not_acceptable_drop == 'Drop here', 'The Not Acceptable Drag element was accepted'
+            assert acceptable_drop == 'Dropped!', 'The Acceptable Drag element was not accepted'
+
+        @allure.description('Check the different reactions of Drop elements when dragging a Drag element into them')
+        def test_prevent_propagation_drop(self, driver, check):
+            page = DroppablePage(driver, URL.DROPPABLE)
+            page.open_page()
+
+            (not_greedy_outer_text,
+             not_greedy_inner_text,
+             greedy_outer_text,
+             greedy_inner_text) = page.drop_prevent_propagation()
+            with check:
+                assert not_greedy_outer_text == 'Dropped!', 'The text was not changed in the not greedy outer box'
+            with check:
+                assert not_greedy_inner_text == 'Dropped!', 'The text was not changed in the not greedy inner box'
+            with check:
+                assert greedy_outer_text == 'Outer droppable', 'The text was changed in the greedy outer box'
+            with check:
+                assert greedy_inner_text == 'Dropped!', 'The text was not changed in the greedy inner box'
+
+        @allure.description('Drop element can revert or not revert relevant drag elements')
+        def test_drop_revert_draggable(self, driver, check):
+            page = DroppablePage(driver, URL.DROPPABLE)
+            page.open_page()
+
+            will_drag_position_after_drop, will_drag_final_position = page.drop_revert_draggable('will revert')
+            not_drag_position_after_drop, not_drag_final_position = page.drop_revert_draggable('not revert')
+            with (check):
+                assert will_drag_position_after_drop != will_drag_final_position, \
+                    'The Will Revert element was not reverted'
+            with (check):
+                assert not_drag_position_after_drop == not_drag_final_position, \
+                    'The Not Revert element was reverted'

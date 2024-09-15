@@ -22,3 +22,26 @@ class ResizablePageLocators:
     RESIZABLE_BOX_HANDLE = (By.CSS_SELECTOR, '#resizableBoxWithRestriction .react-resizable-handle')
     RESIZABLE = (By.CSS_SELECTOR, '#resizable')
     RESIZABLE_HANDLE = (By.CSS_SELECTOR, '#resizable .react-resizable-handle')
+
+
+class DroppablePageLocators:
+    SIMPLE_TAB = (By.CSS_SELECTOR, '#droppableExample-tab-simple')
+    SIMPLE_DRAG_ME = (By.CSS_SELECTOR, '#draggable')
+    SIMPLE_DROP_HERE = (By.CSS_SELECTOR, '#simpleDropContainer #droppable')
+
+    ACCEPT_TAB = (By.CSS_SELECTOR, '#droppableExample-tab-accept')
+    ACCEPTABLE = (By.CSS_SELECTOR, '#acceptable')
+    NOT_ACCEPTABLE = (By.CSS_SELECTOR, '#notAcceptable')
+    ACCEPT_DROP_HERE = (By.CSS_SELECTOR, '#acceptDropContainer #droppable')
+
+    PREVENT_TAB = (By.CSS_SELECTOR, '#droppableExample-tab-preventPropogation')
+    PREVENT_DRAG_ME = (By.CSS_SELECTOR, '#dragBox')
+    NOT_GREEDY_DROP_BOX_TEXT = (By.CSS_SELECTOR, '#notGreedyDropBox>p')
+    NOT_GREEDY_INNER_DROP_BOX = (By.CSS_SELECTOR, '#notGreedyInnerDropBox')
+    GREEDY_DROP_BOX_TEXT = (By.CSS_SELECTOR, '#greedyDropBox>p')
+    GREEDY_INNER_DROP_BOX = (By.CSS_SELECTOR, '#greedyDropBoxInner')
+
+    REVERT_TAB = (By.CSS_SELECTOR, '#droppableExample-tab-revertable')
+    WILL_REVERT = (By.CSS_SELECTOR, '#revertable')
+    NOT_REVERT = (By.CSS_SELECTOR, '#notRevertable')
+    REVERT_DROP_HERE = (By.CSS_SELECTOR, '#revertableDropContainer #droppable')

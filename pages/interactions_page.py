@@ -1,7 +1,8 @@
 import random
 import time
 import allure
-from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators
+from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
+    DroppablePageLocators
 from pages.base_page import BasePage
 
 
@@ -88,3 +89,64 @@ class ResizablePage(BasePage):
         self.drag_and_drop_by_offset(handle, -150, -150)
         min_size = self.get_size(self.locators.RESIZABLE)
         return default_size, max_size, min_size
+
+
+class DroppablePage(BasePage):
+    locators = DroppablePageLocators
+
+    @allure.step('Drop the Drag element into the Drop element on the Simple tab')
+    def drop_simple(self):
+        self.find_element(self.locators.SIMPLE_TAB).click()
+        drag = self.locators.SIMPLE_DRAG_ME
+        drop = self.locators.SIMPLE_DROP_HERE
+        self.drag_and_drop_to_element(drag, drop)
+        drop_text = self.find_element(drop).text
+        return drop_text
+
+    @allure.step('Drop the Not Acceptable and Acceptable elements into the Drop element on the Accept tab')
+    def drop_acceptable(self):
+        self.find_element(self.locators.ACCEPT_TAB).click()
+        acceptable_drag = self.locators.ACCEPTABLE
+        not_acceptable_drag = self.locators.NOT_ACCEPTABLE
+        drop = self.locators.ACCEPT_DROP_HERE
+        self.drag_and_drop_to_element(not_acceptable_drag, drop)
+        not_acceptable_drop_text = self.find_element(drop).text
+        self.drag_and_drop_to_element(acceptable_drag, drop)
+        acceptable_drop_text = self.find_element(drop).text
+        return not_acceptable_drop_text, acceptable_drop_text
+
+    @allure.step('Drop the Drag element into Not greedy inner box and Greedy inner box on the Prevent propagation tab')
+    def drop_prevent_propagation(self):
+        self.find_element(self.locators.PREVENT_TAB).click()
+
+        drag = self.find_element(self.locators.PREVENT_DRAG_ME)
+        not_greedy_inner_drop = self.find_element(self.locators.NOT_GREEDY_INNER_DROP_BOX)
+        greedy_inner_drop = self.find_element(self.locators.GREEDY_INNER_DROP_BOX)
+
+        self.drag_and_drop_to_element(drag, not_greedy_inner_drop)
+        not_greedy_outer_text = self.find_element(self.locators.NOT_GREEDY_DROP_BOX_TEXT).text
+        not_greedy_inner_text = not_greedy_inner_drop.text
+
+        self.drag_and_drop_to_element(drag, greedy_inner_drop)
+        greedy_outer_text = self.find_element(self.locators.GREEDY_DROP_BOX_TEXT).text
+        greedy_inner_text = greedy_inner_drop.text
+
+        return not_greedy_outer_text, not_greedy_inner_text, greedy_outer_text, greedy_inner_text
+
+    @allure.step('Drop the Will Revert and the Not Revert elements into the Drop element on the revert draggable tab')
+    def drop_revert_draggable(self, drag_type):
+        drags = {
+            'will revert': self.locators.WILL_REVERT,
+            'not revert': self.locators.NOT_REVERT
+        }
+        self.find_element(self.locators.REVERT_TAB).click()
+
+        drag = self.find_element(drags[drag_type])
+        drop = self.find_element(self.locators.REVERT_DROP_HERE)
+
+        self.drag_and_drop_to_element(drag, drop)
+        drag_position_after_drop = drag.get_attribute('style')
+        time.sleep(1)
+        drag_final_position = drag.get_attribute('style')
+
+        return drag_position_after_drop, drag_final_position
