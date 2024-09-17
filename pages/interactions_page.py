@@ -2,7 +2,7 @@ import random
 import time
 import allure
 from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
-    DroppablePageLocators
+    DroppablePageLocators, DraggablePageLocators
 from pages.base_page import BasePage
 
 
@@ -150,3 +150,45 @@ class DroppablePage(BasePage):
         drag_final_position = drag.get_attribute('style')
 
         return drag_position_after_drop, drag_final_position
+
+
+class DraggablePage(BasePage):
+    locators = DraggablePageLocators
+
+    @allure.step('Get the X and Y coordinates of the drag element')
+    def get_drag_position(self, element):
+        position = element.get_attribute('style')
+        if position != 'position: relative;':
+            x = int(position.split(';')[1].split(': ')[1].rstrip('px'))  # или int(re.findall(r'-?\d+', position)[0])
+            y = int(position.split(';')[2].split(': ')[1].rstrip('px'))  # или int(re.findall(r'-?\d+', position)[1])
+            return x, y
+        return None, None
+
+    @allure.step('Drag the element on the Simple tab')
+    def drag_simple(self):
+        self.find_element(self.locators.SIMPLE_TAB).click()
+        drag = self.find_element(self.locators.SIMPLE_DRAG_ME)
+        expected_x = random.randint(-100, 500)
+        expected_y = random.randint(-100, 500)
+        self.drag_and_drop_by_offset(drag, expected_x, expected_y)
+        actual_x, actual_y = self.get_drag_position(drag)
+        return actual_x, actual_y, expected_x, expected_y
+
+    @allure.step('Drag the Only X element on the Axis Restricted tab')
+    def drag_only_x(self):
+        self.find_element(self.locators.AXIS_TAB).click()
+        drag = self.find_element(self.locators.ONLY_X)
+        expected_x = random.randint(-100, 500)
+        self.drag_and_drop_by_offset(drag, expected_x, random.randint(-100, 500))
+        actual_x, actual_y = self.get_drag_position(drag)
+        return actual_x, actual_y, expected_x
+
+    @allure.step('Drag the Only Y element on the Axis Restricted tab')
+    def drag_only_y(self):
+        self.find_element(self.locators.AXIS_TAB).click()
+        drag = self.find_element(self.locators.ONLY_Y)
+        expected_x = random.randint(-100, 500)
+        expected_y = random.randint(-100, 500)
+        self.drag_and_drop_by_offset(drag, expected_x, expected_y)
+        actual_x, actual_y = self.get_drag_position(drag)
+        return actual_x, actual_y, expected_y

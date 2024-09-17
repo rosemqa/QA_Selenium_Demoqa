@@ -1,8 +1,7 @@
-import time
 import allure
 import pytest
 from data.links import URL
-from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage
+from pages.interactions_page import SortablePage, SelectablePage, ResizablePage, DroppablePage, DraggablePage
 
 
 @allure.suite('Interactions')
@@ -115,3 +114,38 @@ class TestInteractions:
             with (check):
                 assert not_drag_position_after_drop == not_drag_final_position, \
                     'The Not Revert element was reverted'
+
+    @allure.feature('Draggable elements')
+    class TestDraggablePage:
+        @allure.description('Can drag the element along X and Y axes')
+        def test_simple_drag(self, driver, check):
+            page = DraggablePage(driver, URL.DRAGGABLE)
+            page.open_page()
+
+            actual_x, actual_y, expected_x, expected_y = page.drag_simple()
+            with check:
+                assert actual_x == expected_x, 'Drag element was not moved along the X axis the expected distance'
+            with check:
+                assert actual_y == expected_y, 'Drag element was not moved along the Y axis the expected distance'
+
+        @allure.description('Can drag the element only along X axis')
+        def test_x_axis_restricted_drag(self, driver, check):
+            page = DraggablePage(driver, URL.DRAGGABLE)
+            page.open_page()
+
+            actual_x, actual_y, expected_x = page.drag_only_x()
+            with check:
+                assert actual_y == 0, 'Drag element was moved along the Y axis'
+            with check:
+                assert actual_x == expected_x, 'Drag element was not moved along the X axis the expected distance'
+
+        @allure.description('Can drag the element only along Y axis')
+        def test_y_axis_restricted_drag(self, driver, check):
+            page = DraggablePage(driver, URL.DRAGGABLE)
+            page.open_page()
+
+            actual_x, actual_y, expected_y = page.drag_only_y()
+            with check:
+                assert actual_x == 0, 'Drag element was moved along the X axis'
+            with check:
+                assert actual_y == expected_y, 'Drag element was not moved along the Y axis the expected distance'
