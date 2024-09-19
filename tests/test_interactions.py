@@ -149,3 +149,23 @@ class TestInteractions:
                 assert actual_x == 0, 'Drag element was moved along the X axis'
             with check:
                 assert actual_y == expected_y, 'Drag element was not moved along the Y axis the expected distance'
+
+        @allure.description('Check the cursor style and cursor location while dragging')
+        @pytest.mark.parametrize('cursor_location, style', [('center', 'move'),
+                                                            ('top_left', 'crosshair'),
+                                                            ('bottom', 'auto')])
+        def test_cursor_style(self, driver, cursor_location, style):
+            page = DraggablePage(driver, URL.DRAGGABLE)
+            page.open_page()
+
+            (cursor_style,
+             cursor_style_during_drag,
+             expected_top_left_x,
+             expected_top_left_y,
+             top_left_x,
+             top_left_y) = page.drag_cursor_style_elements(cursor_location)
+            assert cursor_style == 'move', f'Expected "move" initial cursor style, but got "{cursor_style}"'
+            assert cursor_style_during_drag == style, \
+                f'Expected "{style}" cursor style, but got "{cursor_style_during_drag}" while dragging'
+            assert top_left_x == expected_top_left_x and top_left_y == expected_top_left_y, \
+                f'Cursor is not in the {cursor_location} of the element when dragging'

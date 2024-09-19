@@ -1,6 +1,8 @@
 import random
 import time
 import allure
+from selenium.webdriver import ActionChains
+
 from locators.interactions_page_locators import SortablePageLocators, SelectablePageLocators, ResizablePageLocators, \
     DroppablePageLocators, DraggablePageLocators
 from pages.base_page import BasePage
@@ -187,8 +189,59 @@ class DraggablePage(BasePage):
     def drag_only_y(self):
         self.find_element(self.locators.AXIS_TAB).click()
         drag = self.find_element(self.locators.ONLY_Y)
-        expected_x = random.randint(-100, 500)
         expected_y = random.randint(-100, 500)
-        self.drag_and_drop_by_offset(drag, expected_x, expected_y)
+        self.drag_and_drop_by_offset(drag, random.randint(-100, 500), expected_y)
         actual_x, actual_y = self.get_drag_position(drag)
         return actual_x, actual_y, expected_y
+
+    @allure.step('Drag the elements on the Cursor Style tab')
+    def drag_cursor_style_elements(self, cursor_location):
+        cursor = {
+            'center': self.locators.CENTER,
+            'top_left': self.locators.TOP_LEFT,
+            'bottom': self.locators.BOTTOM
+        }
+        self.find_element(self.locators.STYLE_TAB).click()
+        element = self.find_element(cursor[cursor_location])
+        x_offset = random.randint(1, 500)
+        y_offset = random.randint(1, 100)
+        # Определяем начальные координаты верхнего левого угла элемента
+        initial_element_location = element.location
+        initial_top_left_x = initial_element_location['x']
+        initial_top_left_y = initial_element_location['y']
+
+        # Получаем размеры элемента (ширину и высоту)
+        element_size = element.size
+        element_width = element_size['width']
+        element_height = element_size['height']
+
+        # проверяем стиль курсора элемента
+        cursor_style = (self.driver.execute_script("return window.getComputedStyle(arguments[0]).cursor;", element))
+        # или cursor_style = element.value_of_css_property('cursor')
+
+        action = ActionChains(self.driver)
+        action.click_and_hold(element).perform()
+        action.move_by_offset(x_offset, y_offset).perform()
+
+        # Проверяем стиль курсора во время перетаскивания
+        cursor_style_during_drag = self.driver.execute_script("return window.getComputedStyle(document.body).cursor;")
+
+        # Определяем ожидаемые координаты верхнего левого угла элемента при перетаскивании
+        if cursor_location == 'center':
+            offset_correction = -6  # Коррекция смещения в зависимости от перемещения
+            expected_top_left_x = initial_top_left_x + x_offset + offset_correction
+            expected_top_left_y = initial_top_left_y + y_offset + offset_correction
+        elif cursor_location == 'top_left':
+            offset_correction = 5  # Коррекция смещения в зависимости от перемещения
+            expected_top_left_x = initial_top_left_x + element_width // 2 + x_offset + offset_correction
+            expected_top_left_y = initial_top_left_y + element_height // 2 + y_offset + offset_correction
+        elif cursor_location == 'bottom':
+            expected_top_left_x = initial_top_left_x + x_offset
+            expected_top_left_y = initial_top_left_y - element_height // 2 + y_offset
+
+        # Определяем текущие координаты верхнего левого угла элемента
+        element_location = element.location
+        top_left_x = element_location['x']
+        top_left_y = element_location['y']
+
+        return cursor_style, cursor_style_during_drag, expected_top_left_x, expected_top_left_y, top_left_x, top_left_y

@@ -54,3 +54,9 @@ class DraggablePageLocators:
     AXIS_TAB = (By.CSS_SELECTOR, '#draggableExample-tab-axisRestriction')
     ONLY_X = (By.CSS_SELECTOR, '#restrictedX')
     ONLY_Y = (By.CSS_SELECTOR, '#restrictedY')
+
+    STYLE_TAB = (By.CSS_SELECTOR, '#draggableExample-tab-cursorStyle')
+    CENTER = (By.CSS_SELECTOR, '#cursorCenter')
+    TOP_LEFT = (By.CSS_SELECTOR, '#cursorTopLeft')
+    BOTTOM = (By.CSS_SELECTOR, '#cursorBottom')
+
