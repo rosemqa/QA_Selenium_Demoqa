@@ -150,11 +150,25 @@ class TestInteractions:
             with check:
                 assert actual_y == expected_y, 'Drag element was not moved along the Y axis the expected distance'
 
+        @allure.description('The draggable element can not be drugged outside the container')
+        def test_container_restricted_drag(self, driver):
+            page = DraggablePage(driver, URL.DRAGGABLE)
+            page.open_page()
+
+            (drag_box_bottom_right_x,
+             drag_box_bottom_right_y,
+             container_bottom_right_x,
+             container_bottom_right_y) = page.drag_element_inside_container()
+
+            assert (drag_box_bottom_right_x < container_bottom_right_x and
+                    drag_box_bottom_right_y < container_bottom_right_y), \
+                'The draggable element was drugged outside the container'
+
         @allure.description('Check the cursor style and cursor location while dragging')
         @pytest.mark.parametrize('cursor_location, style', [('center', 'move'),
                                                             ('top_left', 'crosshair'),
                                                             ('bottom', 'auto')])
-        def test_cursor_style(self, driver, cursor_location, style):
+        def test_cursor_style(self, driver, check, cursor_location, style):
             page = DraggablePage(driver, URL.DRAGGABLE)
             page.open_page()
 
@@ -164,8 +178,11 @@ class TestInteractions:
              expected_top_left_y,
              top_left_x,
              top_left_y) = page.drag_cursor_style_elements(cursor_location)
-            assert cursor_style == 'move', f'Expected "move" initial cursor style, but got "{cursor_style}"'
-            assert cursor_style_during_drag == style, \
-                f'Expected "{style}" cursor style, but got "{cursor_style_during_drag}" while dragging'
-            assert top_left_x == expected_top_left_x and top_left_y == expected_top_left_y, \
-                f'Cursor is not in the {cursor_location} of the element when dragging'
+            with check:
+                assert cursor_style == 'move', f'Expected "move" initial cursor style, but got "{cursor_style}"'
+            with check:
+                assert cursor_style_during_drag == style, \
+                    f'Expected "{style}" cursor style, but got "{cursor_style_during_drag}" while dragging'
+            with check:
+                assert top_left_x == expected_top_left_x and top_left_y == expected_top_left_y, \
+                    f'Cursor is not in the {cursor_location} of the element when dragging'

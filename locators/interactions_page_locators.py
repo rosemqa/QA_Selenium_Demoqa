@@ -55,8 +55,11 @@ class DraggablePageLocators:
     ONLY_X = (By.CSS_SELECTOR, '#restrictedX')
     ONLY_Y = (By.CSS_SELECTOR, '#restrictedY')
 
+    CONTAINER_TAB = (By.CSS_SELECTOR, '#draggableExample-tab-containerRestriction')
+    CONTAINER_DRAG_BOX = (By.CSS_SELECTOR, '#containmentWrapper .draggable')
+    CONTAINMENT_WRAPPER = (By.CSS_SELECTOR, '#containmentWrapper')
+
     STYLE_TAB = (By.CSS_SELECTOR, '#draggableExample-tab-cursorStyle')
     CENTER = (By.CSS_SELECTOR, '#cursorCenter')
     TOP_LEFT = (By.CSS_SELECTOR, '#cursorTopLeft')
     BOTTOM = (By.CSS_SELECTOR, '#cursorBottom')
-

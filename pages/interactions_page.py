@@ -235,7 +235,7 @@ class DraggablePage(BasePage):
             offset_correction = 5  # Коррекция смещения в зависимости от перемещения
             expected_top_left_x = initial_top_left_x + element_width // 2 + x_offset + offset_correction
             expected_top_left_y = initial_top_left_y + element_height // 2 + y_offset + offset_correction
-        elif cursor_location == 'bottom':
+        else:  # cursor_location == 'bottom'
             expected_top_left_x = initial_top_left_x + x_offset
             expected_top_left_y = initial_top_left_y - element_height // 2 + y_offset
 
@@ -245,3 +245,36 @@ class DraggablePage(BasePage):
         top_left_y = element_location['y']
 
         return cursor_style, cursor_style_during_drag, expected_top_left_x, expected_top_left_y, top_left_x, top_left_y
+
+    @allure.step('Drag the element (box) inside the container on the Container Restricted tab')
+    def drag_element_inside_container(self):
+        self.find_element(self.locators.CONTAINER_TAB).click()
+
+        container = self.find_element(self.locators.CONTAINMENT_WRAPPER)
+        # Получаем размеры контейнера (ширина зависит от размера окна браузера)
+        container_size = container.size
+        container_width = container_size['width']
+        container_height = container_size['height']
+
+        # Определяем координаты нижнего правого угла контейнера
+        container_location = container.location
+        container_bottom_right_x = container_location['x'] + container_width
+        container_bottom_right_y = container_location['y'] + container_height
+
+        drag_box = self.find_element(self.locators.CONTAINER_DRAG_BOX)
+        # Получаем размеры перетаскиваемого бокса (ширину и высоту)
+        drag_box_size = drag_box.size
+        drag_box_width = drag_box_size['width']
+        drag_box_height = drag_box_size['height']
+
+        # Пытаемся перетащить бокс за пределы контейнера
+        x_offset = container_width
+        y_offset = container_height
+        self.drag_and_drop_by_offset(drag_box, x_offset, y_offset)
+
+        # Определяем координаты нижнего правого угла перетаскиваемого бокса
+        drag_box_location = drag_box.location
+        drag_box_bottom_right_x = drag_box_location['x'] + drag_box_width
+        drag_box_bottom_right_y = drag_box_location['y'] + drag_box_height
+
+        return drag_box_bottom_right_x, drag_box_bottom_right_y, container_bottom_right_x, container_bottom_right_y
