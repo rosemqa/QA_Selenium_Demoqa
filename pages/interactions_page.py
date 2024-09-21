@@ -160,11 +160,9 @@ class DraggablePage(BasePage):
     @allure.step('Get the X and Y coordinates of the drag element')
     def get_drag_position(self, element):
         position = element.get_attribute('style')
-        if position != 'position: relative;':
-            x = int(position.split(';')[1].split(': ')[1].rstrip('px'))  # или int(re.findall(r'-?\d+', position)[0])
-            y = int(position.split(';')[2].split(': ')[1].rstrip('px'))  # или int(re.findall(r'-?\d+', position)[1])
-            return x, y
-        return None, None
+        x = int(position.split(';')[1].split(': ')[1].rstrip('px'))  # или int(re.findall(r'-?\d+', position)[0])
+        y = int(position.split(';')[2].split(': ')[1].rstrip('px'))  # или int(re.findall(r'-?\d+', position)[1])
+        return x, y
 
     @allure.step('Drag the element on the Simple tab')
     def drag_simple(self):
