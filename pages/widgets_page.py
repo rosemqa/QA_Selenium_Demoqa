@@ -166,9 +166,10 @@ class TabsPage(BasePage):
 
     @allure.step('Click a tab and get the tab name and the length of the tab text')
     def check_tabs(self, tab_name):
-        tabs = {'What': {
-            'title': self.locators.WHAT_TAB,
-            'content': self.locators.WHAT_TAB_CONTENT},
+        tabs = {
+            'What': {
+                'title': self.locators.WHAT_TAB,
+                'content': self.locators.WHAT_TAB_CONTENT},
             'Origin': {
                 'title': self.locators.ORIGIN_TAB,
                 'content': self.locators.ORIGIN_TAB_CONTENT},

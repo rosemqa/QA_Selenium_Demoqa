@@ -138,8 +138,8 @@ class TestWidgets:
             page = TabsPage(driver, URL.TABS)
             page.open_page()
 
-            what_tab_name, what_tab_content = page.check_tabs(tab_name)
-            assert what_tab_name == tab_name and what_tab_content != 0, \
+            tab_title, tab_content = page.check_tabs(tab_name)
+            assert tab_title == tab_name and tab_content != 0, \
                 f'"{tab_name}" tab name is not correct or missing content text'
 
     @allure.feature('Tool Tips')
@@ -172,7 +172,7 @@ class TestWidgets:
                 'SUB SUB LIST »',
                 'Sub Sub Item 1',
                 'Sub Sub Item 2',
-                'Main Item 30'
+                'Main Item 3'
             ]
             page = MenuPage(driver, URL.MENU)
             page.open_page()

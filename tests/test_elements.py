@@ -1,4 +1,3 @@
-import os
 import random
 import time
 import allure
@@ -19,7 +18,10 @@ class TestElements:
 
             full_name, email, current_address, permanent_address = page.fill_all_fields()
             page.click_submit_button()
-            output_fullname, output_email, output_current_address, output_permanent_address = page.get_output_form_info()
+            (output_fullname,
+             output_email,
+             output_current_address,
+             output_permanent_address) = page.get_output_form_info()
 
             assert output_fullname == full_name, 'Full name does not match'
             assert output_email == email, 'Email does not match'
@@ -182,7 +184,7 @@ class TestElements:
             page.open_page()
 
             assert page.get_color_of_button_text() == '#ffffff', 'Initial button color is not correct'
-            time.sleep(5)
+            time.sleep(5.5)
             assert page.get_color_of_button_text() == '#dc3545', 'Final button color is not correct'
 
         @allure.description('Check if the "Visible" button appears after 5 seconds')

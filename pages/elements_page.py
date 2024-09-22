@@ -18,19 +18,6 @@ from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLoc
 class TextBoxPage(BasePage):
     locators = TextBoxPageLocators()
 
-    # GETTERS
-    # def get_output_name_text(self):
-    #     return self.find_element(self.locators.OUTPUT_FULL_NAME).text.split(':')[1]
-    #
-    # def get_output_email_text(self):
-    #     return self.find_element(self.locators.OUTPUT_EMAIL).text.split(':')[1]
-    #
-    # def get_output_current_address_text(self):
-    #     return self.find_element(self.locators.OUTPUT_CURRENT_ADDRESS).text.split(':')[1]
-    #
-    # def get_output_permanent_address_text(self):
-    #     return self.find_element(self.locators.OUTPUT_PERMANENT_ADDRESS).text.split(':')[1]
-
     def get_output_form_info(self):
         """get text from output form"""
         fullname = self.find_element(self.locators.OUTPUT_FULL_NAME).text.split(':')[1]
@@ -38,27 +25,6 @@ class TextBoxPage(BasePage):
         current_address = self.find_element(self.locators.OUTPUT_CURRENT_ADDRESS).text.split(':')[1]
         permanent_address = self.find_element(self.locators.OUTPUT_PERMANENT_ADDRESS).text.split(':')[1]
         return fullname, email, current_address, permanent_address
-
-    # ACTIONS
-    # @allure.step('Enter fullname')
-    # def enter_fullname(self, fullname):
-    #     self.find_element(self.locators.FULL_NAME).send_keys(fullname)
-    #     # return self.fullname
-    #
-    # @allure.step('Enter Email')
-    # def enter_email(self, email):
-    #     self.find_element(self.locators.EMAIL).send_keys(email)
-    #     # return self.email
-    #
-    # @allure.step('Enter current address')
-    # def enter_current_address(self, current_address):
-    #     self.find_element(self.locators.CURRENT_ADDRESS).send_keys(current_address)
-    #     # return self.current_address
-    #
-    # @allure.step('Enter permanent address')
-    # def enter_permanent_address(self, permanent_address):
-    #     self.find_element(self.locators.PERMANENT_ADDRESS).send_keys(permanent_address)
-    #     # return self.permanent_address
 
     @allure.step('Fill in all the fields')
     def fill_all_fields(self):
