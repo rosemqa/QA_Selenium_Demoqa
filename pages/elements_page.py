@@ -139,7 +139,7 @@ class WebTablePage(BasePage):
             self.find_element(self.locators.DEPARTMENT).send_keys(department)
         with allure.step('Click Submit button'):
             self.find_element(self.locators.SUBMIT_BTN).click()
-
+            time.sleep(1)
         return [first_name, last_name, str(age), email, str(salary), department]
 
     @allure.step('Enter keyword into search field')

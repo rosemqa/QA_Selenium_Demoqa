@@ -7,6 +7,7 @@ from faker import Faker
 ru_fake = Faker('ru_RU')
 fake = Faker()
 
+
 def generated_person():
     return Person(
         fullname=ru_fake.name_male(),
