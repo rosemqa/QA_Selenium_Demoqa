@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Sep 24 22:44:32 UTC 2024","Tue Sep 24 22:44:35 UTC 2024","2648","tests","Interactions","TestInteractions","","","test_select_items[list]","Can select items in the List/Grid"
+"passed","Tue Sep 24 22:44:39 UTC 2024","Tue Sep 24 22:44:41 UTC 2024","2211","tests","Interactions","TestInteractions","","","test_deselect_items[grid]","Can deselect items in the List/Grid"
+"passed","Tue Sep 24 22:44:36 UTC 2024","Tue Sep 24 22:44:39 UTC 2024","2392","tests","Interactions","TestInteractions","","","test_deselect_items[list]","Can deselect items in the List/Grid"
+"passed","Tue Sep 24 22:44:35 UTC 2024","Tue Sep 24 22:44:36 UTC 2024","1419","tests","Interactions","TestInteractions","","","test_select_items[grid]","Can select items in the List/Grid"
