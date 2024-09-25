@@ -51,16 +51,17 @@ def driver(request):
     if browser_name == 'chrome':
         driver = webdriver.Chrome(options=chrome_options)
         print('\nStart Chrome browser')
-        driver.maximize_window()
-        # driver.set_window_size(1920, 1080)
+        # driver.maximize_window()
+        driver.set_window_size(1920, 1080)
     elif browser_name == 'firefox':
         driver = webdriver.Firefox(options=firefox_options)
         print('\nStart Firefox browser')
-        driver.maximize_window()
-        # driver.set_window_size(1920, 1080)
+        # driver.maximize_window()
+        driver.set_window_size(1920, 1080)
     elif browser_name == 'edge':
         driver = webdriver.Edge(options=edge_options)
-        driver.maximize_window()
+        # driver.maximize_window()
+        driver.set_window_size(1920, 1080)
         print('\nStart Edge browser')
     else:
         raise pytest.UsageError('--browser_name should be chrome, firefox or edge')
