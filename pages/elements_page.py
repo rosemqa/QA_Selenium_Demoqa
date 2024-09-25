@@ -1,8 +1,7 @@
+import allure
 import os
 import random
 import time
-
-import allure
 import requests
 from selenium.webdriver.support.color import Color
 from selenium.webdriver.support.select import Select
@@ -248,7 +247,7 @@ class UploadDownloadPage(BasePage):
         file_path = generated_file()
         self.find_element(self.locators.UPLOAD_FILE).send_keys(file_path)
         os.remove(file_path)  # removes file
-        return file_path.split('\\')[-1]  # returns file name
+        return file_path.replace('\\', '/').split('/')[-1]  # returns file name
 
     @allure.step('Download file')
     def download_file(self):
