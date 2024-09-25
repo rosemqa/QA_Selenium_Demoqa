@@ -4,4 +4,4 @@ services:
     build: .
     volumes:
       - .:/test_project
-    command: /bin/sh -c "ls -la && pytest tests/test_interactions.py::TestInteractions::TestSelectablePage --browser_name=chrome -v --alluredir=allure_results"
+    command: /bin/sh -c "ls -la && pytest --browser_name=chrome -v --alluredir=allure_results"
