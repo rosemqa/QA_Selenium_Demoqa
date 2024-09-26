@@ -106,7 +106,7 @@ class PracticeFormPage(BasePage):
             formatted_date,
             subject,
             selected_hobby,
-            file_path.split('\\')[-1],
+            file_path.replace('\\', '/').split('/')[-1],
             current_address,
             f'{self.get_state_text()} {self.get_city_text()}'
         ]
