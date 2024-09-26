@@ -242,7 +242,13 @@ class DraggablePage(BasePage):
         top_left_x = element_location['x']
         top_left_y = element_location['y']
 
-        return cursor_style, cursor_style_during_drag, expected_top_left_x, expected_top_left_y, top_left_x, top_left_y
+        # Локация элемента в браузере на ПК и в Docker отличается на 1, поэтому "expected" в виде списков
+        return (cursor_style,
+                cursor_style_during_drag,
+                [expected_top_left_x, expected_top_left_x - 1],
+                [expected_top_left_y, expected_top_left_y - 1],
+                top_left_x,
+                top_left_y)
 
     @allure.step('Drag the element (box) inside the container on the Container Restricted tab')
     def drag_element_inside_container(self):

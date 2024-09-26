@@ -184,5 +184,5 @@ class TestInteractions:
                 assert cursor_style_during_drag == style, \
                     f'Expected "{style}" cursor style, but got "{cursor_style_during_drag}" while dragging'
             with check:
-                assert top_left_x == expected_top_left_x and top_left_y == expected_top_left_y, \
+                assert top_left_x in expected_top_left_x and top_left_y in expected_top_left_y, \
                     f'Cursor is not in the {cursor_location} of the element when dragging'
