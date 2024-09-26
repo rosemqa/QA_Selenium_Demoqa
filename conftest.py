@@ -52,7 +52,7 @@ def driver(request):
         driver = webdriver.Chrome(options=chrome_options)
         print('\nStart Chrome browser')
         # driver.maximize_window()
-        driver.set_window_size(1920, 1080)
+        driver.set_window_size(3840, 2160)
     elif browser_name == 'firefox':
         driver = webdriver.Firefox(options=firefox_options)
         print('\nStart Firefox browser')
