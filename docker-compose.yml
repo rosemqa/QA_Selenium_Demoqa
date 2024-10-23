@@ -1,7 +1,14 @@
 services:
   pytest_runner:
-    image: python
+    image: tests
     build: .
     volumes:
       - .:/test_project
-    command: /bin/sh -c "ls -la && pytest --browser_name=chrome -v --alluredir=allure_results"
+    command: /bin/sh -c "pytest --browser_name=chrome -v --alluredir=allure_results/"
+
+  report:
+    image: tests
+    build: .
+    volumes:
+      - .:/test_project
+    command: /bin/sh -c "allure generate allure_results --clean -o allure_report"
