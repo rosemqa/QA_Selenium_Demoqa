@@ -17,7 +17,6 @@ jobs:
 
       - name: Run UI-tests via docker-compose
         run: |
-          docker compose build
           docker compose up pytest_runner --exit-code-from pytest_runner || true
 
       - name: Copy history from gh-pages to allure_results
