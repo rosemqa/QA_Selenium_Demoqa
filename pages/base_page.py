@@ -1,5 +1,4 @@
 import time
-
 import allure
 from selenium.common import TimeoutException
 from selenium.webdriver import ActionChains
@@ -89,7 +88,7 @@ class BasePage:
         time.sleep(timeout)
         return self.driver.current_url
 
-    def sroll_to_element(self, locator):
+    def scroll_to_element(self, locator):
         """Scroll to element"""
         element = self.find_element(locator)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
@@ -123,3 +122,12 @@ class BasePage:
     def drag_and_drop_by_offset(self, element, x_coords, y_coords):
         action = ActionChains(self.driver)
         action.drag_and_drop_by_offset(element, x_coords, y_coords).perform()
+
+    def move_mouse_by_offset(self, x_offset, y_offset):
+        action = ActionChains(self.driver)
+        action \
+            .move_by_offset(x_offset, y_offset) \
+            .perform()
+
+    def is_element_in_element(self, child_element, parent_element):
+        return child_element in parent_element.find_elements('xpath', './/*')
